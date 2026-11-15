@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#f6f3ed" />
-<meta name="description" content="TalkTrip v2.1: no-API Japanese and Italian travel conversation trainer. 16 branching adventures per language, speaking-first mode, culture notes, natural expression trainer and spaced review." />
-<title>TalkTrip v2.1 · Travel conversation lab</title>
+<meta name="description" content="TalkTrip v2.1.2: no-API Japanese and Italian travel conversation trainer. 16 branching adventures per language, speaking-first mode, culture notes, natural expression trainer and spaced review." />
+<title>TalkTrip v2.1.2 · iPhone audio repair</title>
 <style>
 :root{--ink:#192b3f;--muted:#72808b;--paper:#f6f3ed;--card:#fffefa;--blue:#2449a0;--bluish:#e9effe;--line:#e5e6e4;--orange:#e78b48;--mint:#dceee7;--green:#227a58;--red:#b74735;--shadow:0 12px 38px rgba(20,35,62,.055)}
 *{box-sizing:border-box}[hidden]{display:none!important}html{background:#e8e9e4;scroll-behavior:smooth}body{margin:0;font:15px/1.52 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;color:var(--ink);background:var(--paper);min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.42;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #85a9ff;outline-offset:2px} .shell{min-height:100dvh;max-width:530px;margin:auto;background:var(--paper);position:relative;padding-bottom:calc(104px + env(safe-area-inset-bottom))} @media(min-width:600px){.shell{box-shadow:0 5px 60px #1a2d3730}}
@@ -402,7 +402,8 @@ function savedIds(){return Object.keys(P.deck).filter(id=>id.startsWith(S.lang+'
 function actionBtn(action,content,cls='',attrs=''){return `<button class="${cls}" data-action="${action}" ${attrs}>${content}</button>`;}
 function ttsSupported(){return 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;}
 let currentUtterance=null, speechStartTimer=null, speechGeneration=0, speechWasStarted=false, lastSpeech=null;
-let audioStatus='Ready to test audio.', audioDetails='';
+let audioStatus='Ready for sound diagnostics.', audioDetails='';
+let soundContext=null, nativeSound=null, lastAudioMethod='default';
 const isiPhone=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 function setAudioStatus(message,details=''){
  audioStatus=message;audioDetails=details;
@@ -411,86 +412,129 @@ function setAudioStatus(message,details=''){
 function updateVoices(){
  if(!ttsSupported())return;
  try{voices=window.speechSynthesis.getVoices()||[];}catch(e){voices=[];}
- // Rebuilding a Settings page while an option is being selected is undesirable.
- if(S.tab==='settings'&&!document.activeElement?.matches('#voice'))render();
+ // Never rerender while fetching voices: iPhone Safari can interrupt user gestures.
+ const select=document.getElementById('voice');
+ if(select){
+  const old=select.value;
+  const choices=voices.filter(v=>(v.lang||'').toLowerCase().startsWith(S.lang==='ja'?'ja':'it'));
+  const val=P.settings.voices?.[S.lang]||old;
+  select.innerHTML='<option value="">Automatic (recommended)</option>' + choices.map(v=>`<option value="${esc(v.voiceURI)}">${esc(v.name)}</option>`).join('');
+  select.value=choices.some(v=>v.voiceURI===val)?val:'';
+ }
 }
 if(ttsSupported()){
  updateVoices();window.speechSynthesis.addEventListener?.('voiceschanged',updateVoices);
  document.addEventListener('visibilitychange',()=>{
-  if(!document.hidden){updateVoices();if(currentUtterance&&!speechWasStarted)setAudioStatus('Audio was interrupted. Tap Play again.');}
+  if(!document.hidden){updateVoices();if(currentUtterance&&!speechWasStarted)setAudioStatus('Audio interrupted after app switch. Tap Test voice again.');}
  });
+}
+function prepareAudioSession(){
+ // Experimental iOS property: best effort only, never needed for basic playback.
+ try{if(navigator.audioSession&&navigator.audioSession.type!=='playback')navigator.audioSession.type='playback';}catch(e){}
+}
+function unlockSound(){
+ try{
+  prepareAudioSession();
+  const Ctx=window.AudioContext||window.webkitAudioContext;
+  if(!Ctx)return;
+  if(!soundContext||soundContext.state==='closed')soundContext=new Ctx();
+  if(soundContext.state==='suspended')soundContext.resume().catch(()=>{});
+ }catch(e){}
+}
+function testSound(){
+ // This deliberately uses Web Audio, not speechSynthesis, to isolate speaker routing.
+ try{
+  unlockSound();
+  if(!soundContext)throw Error('Web Audio unsupported');
+  const ctx=soundContext;
+  const osc=ctx.createOscillator(),gain=ctx.createGain();
+  osc.type='sine';osc.frequency.value=660;
+  gain.gain.setValueAtTime(0.0001,ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.22,ctx.currentTime+0.025);
+  gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.38);
+  osc.connect(gain);gain.connect(ctx.destination);
+  osc.start(ctx.currentTime+0.01);osc.stop(ctx.currentTime+0.4);
+  setAudioStatus('Sound test triggered: a short beep should be audible.','If silent, check volume, mute/audio route, and Bluetooth.');
+ }catch(e){setAudioStatus('Sound test error: '+(e.message||String(e)));}
 }
 function stopSpeech(){
  speechGeneration++;clearTimeout(speechStartTimer);
- if(ttsSupported())try{window.speechSynthesis.cancel();}catch(e){}
+ if(ttsSupported()&& (currentUtterance||window.speechSynthesis.speaking||window.speechSynthesis.pending||window.speechSynthesis.paused))try{window.speechSynthesis.cancel();}catch(e){}
  currentUtterance=null;speechWasStarted=false;
 }
-function speak(text,lang=S.lang,rateOverride=null){
+function speak(text,lang=S.lang,rateOverride=null,mode='default'){
  if(!text||!String(text).trim())return;
- if(!ttsSupported()){setAudioStatus('Speech synthesis is not supported in this browser.');toast(audioStatus);return;}
- if(recording?.state==='recording'||recordStream?.active){
-  toast('Stop recording first, then tap Play. iPhone Safari can interrupt the microphone during speech.');return;
- }
+ if(!ttsSupported()){setAudioStatus('iPhone browser speech synthesis unavailable.');return;}
+ if(recording?.state==='recording'||recordStream?.active){toast('Stop recording before playing an example.');return;}
  try{
-  // Called synchronously by the real tap/click handler: Safari requires a user gesture.
-  // Do not await a promise or timer before the initial speechSynthesis.speak call.
+  // Entire setup and speak() call stays in the original button tap stack.
+  unlockSound();
   const engine=window.speechSynthesis;
-  // Cancel only when replacing active or queued audio. Calling cancel() for every
-  // first utterance can lead to a silent start on some Safari versions.
-  const hadSpeech=!!currentUtterance||engine.speaking||engine.pending||engine.paused;
+  const active=!!currentUtterance||engine.speaking||engine.pending||engine.paused;
   speechGeneration++;const generation=speechGeneration;
   clearTimeout(speechStartTimer);
-  if(hadSpeech){try{engine.cancel();}catch(e){}}
+  if(active){try{engine.cancel();}catch(e){}}
   currentUtterance=null;speechWasStarted=false;
-  updateVoices();
+  // Never update the Settings DOM within the speech gesture.
+  try{voices=engine.getVoices()||[];}catch(e){voices=[];}
   const utterance=new SpeechSynthesisUtterance(String(text));
   utterance.lang=LANG[lang].voice;
-  utterance.rate=rateOverride??(Number(P.settings.speed)||0.9);
+  utterance.rate=rateOverride??(Number(P.settings.speed)||1);
   utterance.pitch=1;utterance.volume=1;
   const named=P.settings.voices?.[lang];
-  const matches=voices.filter(v=>v.lang?.toLowerCase().startsWith(lang==='ja'?'ja':'it'));
-  const selected=matches.find(v=>v.voiceURI===named)||matches.find(v=>v.localService)||matches[0];
+  const matches=voices.filter(v=>(v.lang||'').toLowerCase().startsWith(lang==='ja'?'ja':'it'));
+  let selected=null;
+  // On iPhone, let iOS pick its own voice unless the user specifically chose one.
+  // Forcing the first getVoices() entry can produce a silent utterance.
+  if(mode==='selected') selected=matches.find(v=>v.voiceURI===named)||matches.find(v=>v.localService)||matches[0]||null;
+  else if(mode==='default') selected=matches.find(v=>v.voiceURI===named)||null;
   if(selected)utterance.voice=selected;
-  lastSpeech={text:String(text),lang,rate:rateOverride};
+  lastSpeech={text:String(text),lang,rate:rateOverride,mode};lastAudioMethod=mode;
   utterance.onstart=()=>{
    if(generation!==speechGeneration)return;
    speechWasStarted=true;clearTimeout(speechStartTimer);
-   setAudioStatus('Playing '+LANG[lang].name+' voice',selected?.name||'System default');
+   setAudioStatus('Speech started (event confirmed).',`${lang==='ja'?'Japanese':'Italian'} · ${selected?.name||'iOS system default'} · mode ${mode}. If silent, try the other mode.`);
    addLog('listen');
   };
   utterance.onend=()=>{
    if(generation!==speechGeneration)return;
    clearTimeout(speechStartTimer);currentUtterance=null;
-   setAudioStatus('Playback finished.',selected?.name||'System default');
+   setAudioStatus('Speech finished (event confirmed).','If nothing was audible, the iPhone speech engine or sound routing is silent even though events fired.');
   };
   utterance.onerror=(event)=>{
    if(generation!==speechGeneration)return;
    clearTimeout(speechStartTimer);currentUtterance=null;
-   const reason=event.error||'unknown error';
-   setAudioStatus('Playback failed: '+reason,'Tap Retry audio in Settings');
-   toast('Voice did not play ('+reason+'). Try Retry audio in Settings.');
+   setAudioStatus('Speech engine error: '+(event.error||'unknown'),'Try native voice mode or reload Safari.');
   };
-  // Keep a strong reference; WebKit may behave poorly if the utterance is released.
   currentUtterance=utterance;
-  setAudioStatus('Starting '+LANG[lang].name+' audio…',selected?.name||'System default');
+  setAudioStatus('Speech request submitted.',`mode ${mode} · ${(matches.length)} ${lang==='ja'?'Japanese':'Italian'} voice(s) listed`);
   engine.speak(utterance);
-  if(engine.paused)try{engine.resume();}catch(e){}
+  if(engine.paused){try{engine.resume();}catch(e){}}
   speechStartTimer=setTimeout(()=>{
    if(generation!==speechGeneration||speechWasStarted)return;
-   const status=engine.pending?'queued':engine.speaking?'speaking (no start event)':'idle';
-   setAudioStatus('Audio may be blocked or stalled ('+status+').','Tap Retry audio or select a different iPhone voice');
-   toast('No voice start detected. Open Me → Retry audio.');
-  },3500);
-  if(!matches.length)setAudioStatus('Starting audio — no '+LANG[lang].name+' voice detected.','Install a voice in iPhone Settings if it remains silent');
- }catch(e){setAudioStatus('Audio error: '+(e.message||'unknown'));toast('Audio could not start. See Me → Audio diagnostics.');}
+   setAudioStatus('Speech did not report starting.',`pending=${!!engine.pending}; speaking=${!!engine.speaking}; paused=${!!engine.paused}; listed voices=${matches.length}. Try alternate voice mode.`);
+  },4500);
+ }catch(e){setAudioStatus('Speech exception: '+(e.message||String(e)));}
 }
 function retryAudio(){
  const previous=lastSpeech;
- // A manual retry is another real user tap, allowing us to reset a stalled queue.
- stopSpeech();updateVoices();
- if(ttsSupported())try{window.speechSynthesis.resume();}catch(e){}
- if(previous)speak(previous.text,previous.lang,previous.rate);
- else speak(S.lang==='ja'?'こんにちは。もう一度お願いします。':'Buongiorno, può ripetere per favore?');
+ stopSpeech();
+ speak(previous?.text||(S.lang==='ja'?'こんにちは。':'Buongiorno.'),previous?.lang||S.lang,previous?.rate??null,'default');
+}
+function audioTestVoice(mode){
+ const line=S.lang==='ja'?'こんにちは。':'Buongiorno.';
+ speak(line,S.lang,1,mode);
+}
+function audioReport(){
+ const synth=ttsSupported()?window.speechSynthesis:null;
+ return ['TalkTrip 2.1.2 iPhone sound diagnostics','Language: '+S.lang,'Device: '+navigator.userAgent,
+ 'Site: '+location.protocol+' // '+location.host,
+ 'Voices listed: '+voices.filter(v=>(v.lang||'').toLowerCase().startsWith(S.lang)).map(v=>v.name+' '+v.lang).join('; '),
+ 'Status: '+audioStatus,'Details: '+audioDetails,
+ 'Speech engine: '+(synth?`pending=${synth.pending}, speaking=${synth.speaking}, paused=${synth.paused}`:'not supported'),
+ 'WebAudio: '+(soundContext?.state||'not initialized'),
+ 'Audio session: '+(navigator.audioSession?.type||'unavailable'),
+ 'Chosen voice: '+(P.settings.voices[S.lang]||'iOS default')].join('\n');
 }
 function clearRecording(){recordDiscard=true;if(recordURL){URL.revokeObjectURL(recordURL);recordURL=null;}}
 function cleanupAudio(){clearRecording();try{if(recording&&recording.state==='recording')recording.stop();}catch(e){}try{recordStream?.getTracks().forEach(t=>t.stop());}catch(e){}recording=null;recordStream=null;stopSpeech();}
@@ -532,9 +576,9 @@ const item=INDEX[due[0]];content+=`<div class="section"><div class="section-titl
 function phrasebookItems(){return Object.values(INDEX).filter(x=>x.lang===S.lang&&(S.libraryType==='all'||x.type===S.libraryType));}
 function libraryRows(items){return items.map(x=>`<div class="wordsrow library-item"><div class="grow"><div class="term ${S.lang==='ja'?'jp':''}">${esc(x.target)}</div>${P.settings.reading&&x.reading?`<div class="tiny">${esc(x.reading)}</div>`:''}<div class="definition">${esc(x.en)} · ${esc(x.sceneTitle)}</div></div>${actionBtn('play','▶','mini',`data-id="${x.id}" aria-label="Hear phrase"`)}${actionBtn('save',P.deck[x.id]?'★':'☆',`mini ${P.deck[x.id]?'saved':''}`,`data-id="${x.id}" aria-label="Save phrase"`)}</div>`).join('');}
 function libraryView(){const all=phrasebookItems(),items=S.librarySearch?all.filter(x=>`${x.target} ${x.reading} ${x.en} ${x.sceneTitle}`.toLowerCase().includes(S.librarySearch.toLowerCase())):all;let markup=showHeader('Your travel phrasebook','Search useful phrases and words. Save any item for future review.');markup+=`<input type="search" class="search" id="library-search" placeholder="Search in English, ${LANG[S.lang].name}..." aria-label="Search phrasebook" value="${esc(S.librarySearch)}"/><div class="switchbar">${[['all','All'],['phrase','Phrases'],['word','Words']].map(([id,label])=>actionBtn('libraryType',label,S.libraryType===id?'active':'',`data-value="${id}"`)).join('')}</div><div class="countlabel topgap" id="library-count">Showing ${Math.min(items.length,S.libraryCount)} of ${items.length} items</div><div class="card" id="library-items" style="padding:4px 15px">${libraryRows(items.slice(0,S.libraryCount))}</div>`;if(items.length>S.libraryCount)markup+=actionBtn('libraryMore',`Load more (${items.length-S.libraryCount} remaining)`,'outline wide topgap');markup+=`<p id="library-empty" class="sub topgap" ${items.length?'hidden':''}>No matching words or phrases.</p>`;return markup;}
-function settingsView(){const choices=voices.filter(v=>v.lang.toLowerCase().startsWith(S.lang==='ja'?'ja':'it')),mediaOk=!!(navigator.mediaDevices?.getUserMedia&&window.MediaRecorder);const s=P.settings;return `${showHeader('Make it yours','Your private practice space and listening preferences.')}<div class="section"><h2>Audio & learning</h2><div class="setting-row"><div><strong>Speech speed</strong><div class="sub">Slow down the local voice</div></div><select id="speed" aria-label="Playback speed">${[[.75,'Slow · 0.75×'],[.9,'Gentle · 0.9×'],[1,'Normal · 1×'],[1.15,'Fast · 1.15×']].map(([v,l])=>`<option value="${v}" ${Number(s.speed)===v?'selected':''}>${l}</option>`).join('')}</select></div>${S.lang==='ja'?`<div class="setting-row"><div><strong>Show kana reading</strong><div class="sub">Helpful for unfamiliar kanji</div></div>${actionBtn('toggleReading','',`toggle ${s.reading?'on':''}`,`aria-label="Toggle Japanese reading" aria-pressed="${!!s.reading}"`)}</div>`:''}<div class="setting-row"><div><strong>Hide translations in listening</strong><div class="sub">Build comprehension before reading</div></div>${actionBtn('toggleEnglish','',`toggle ${s.hideEnglish?'on':''}`,`aria-label="Hide translations" aria-pressed="${!!s.hideEnglish}"`)}</div><div class="setting-row"><div><strong>${LANG[S.lang].name} voice</strong><div class="sub">Uses voices on your device</div></div><select id="voice" aria-label="Speech voice"><option value="">Automatic</option>${choices.map(v=>`<option value="${esc(v.voiceURI)}" ${s.voices?.[S.lang]===v.voiceURI?'selected':''}>${esc(v.name)}</option>`).join('')}</select></div>${actionBtn('testVoice','▶ Test ${LANG[S.lang].name} voice','secondary wide topgap')}${actionBtn('retryAudio','↻ Retry audio / reset speech','outline wide topgap')}<div class="notice" style="margin-top:10px"><strong>iPhone audio diagnostics</strong><div id="audio-diagnostic" aria-live="polite">${esc(audioStatus)}${audioDetails?' — '+esc(audioDetails):''}</div><div class="tiny" style="margin-top:6px">Tap Test while the phone is unlocked, turn up media volume, and use Safari from an HTTPS site. If silent, tap Retry and select another voice above. Japanese and Italian system voices can be downloaded under iPhone Settings → Accessibility → Spoken Content → Voices (menu names vary by iOS version). Voice playback may stop when the screen locks.</div></div><div class="notice">Text-to-speech: ${ttsSupported()?'available':'unavailable'} · Local voice recording: ${mediaOk?'available with microphone permission':'unavailable'}. We do not use cloud speech recognition, make API calls, or upload recordings. Device speech voices may vary.</div></div>
+function settingsView(){const choices=voices.filter(v=>(v.lang||'').toLowerCase().startsWith(S.lang==='ja'?'ja':'it')),mediaOk=!!(navigator.mediaDevices?.getUserMedia&&window.MediaRecorder);const s=P.settings;return `${showHeader('Make it yours','Your private practice space and listening preferences.')}<div class="section"><h2>Audio & learning</h2><div class="setting-row"><div><strong>Speech speed</strong><div class="sub">Slow down the local voice</div></div><select id="speed" aria-label="Playback speed">${[[.75,'Slow · 0.75×'],[.9,'Gentle · 0.9×'],[1,'Normal · 1×'],[1.15,'Fast · 1.15×']].map(([v,l])=>`<option value="${v}" ${Number(s.speed)===v?'selected':''}>${l}</option>`).join('')}</select></div>${S.lang==='ja'?`<div class="setting-row"><div><strong>Show kana reading</strong><div class="sub">Helpful for unfamiliar kanji</div></div>${actionBtn('toggleReading','',`toggle ${s.reading?'on':''}`,`aria-label="Toggle Japanese reading" aria-pressed="${!!s.reading}"`)}</div>`:''}<div class="setting-row"><div><strong>Hide translations in listening</strong><div class="sub">Build comprehension before reading</div></div>${actionBtn('toggleEnglish','',`toggle ${s.hideEnglish?'on':''}`,`aria-label="Hide translations" aria-pressed="${!!s.hideEnglish}"`)}</div><div class="setting-row"><div><strong>${LANG[S.lang].name} voice</strong><div class="sub">Uses voices on your device</div></div><select id="voice" aria-label="Speech voice"><option value="">Automatic (recommended)</option>${choices.map(v=>`<option value="${esc(v.voiceURI)}" ${s.voices?.[S.lang]===v.voiceURI?'selected':''}>${esc(v.name)}</option>`).join('')}</select></div>${actionBtn('testSound','1 · Play speaker beep','secondary wide topgap')}${actionBtn('testVoice','2 · Test short system voice','secondary wide topgap')}${actionBtn('testVoiceAlt','3 · Test selected native voice','outline wide topgap')}${actionBtn('retryAudio','↻ Reset and retry voice','outline wide topgap')}${actionBtn('copyAudioReport','Copy diagnostic report','textlink topgap')}<div class="notice" style="margin-top:10px"><strong>iPhone audio diagnostics</strong><div id="audio-diagnostic" aria-live="polite">${esc(audioStatus)}${audioDetails?' — '+esc(audioDetails):''}</div><div class="tiny" style="margin-top:6px">First tap speaker beep, then short system voice, then selected native voice. These tests separate speaker output from Safari text-to-speech. Use Safari over HTTPS with screen unlocked. If voice is silent but beep plays, reload Safari or restart Safari and retry. Japanese and Italian system voices can be downloaded under iPhone Settings → Accessibility → Spoken Content → Voices (menu names vary by iOS version). Voice playback may stop when the screen locks.</div></div><div class="notice">Text-to-speech: ${ttsSupported()?'available':'unavailable'} · Local voice recording: ${mediaOk?'available with microphone permission':'unavailable'}. We do not use cloud speech recognition, make API calls, or upload recordings. Device speech voices may vary.</div></div>
 <div class="section"><h2>My progress</h2><div class="twogrid topgap"><div class="stat"><strong>${P.lifetime[S.lang]?.conversations||0}</strong><span>Completed dialogues</span></div><div class="stat"><strong>${P.lifetime[S.lang]?.reviewed||0}</strong><span>Cards reviewed</span></div></div></div>
-<div class="section"><h2>Keep your progress safe</h2><p class="sub" style="margin:9px 0 13px">Saved in this device's browser. Export a backup before switching phones, clearing browser data, or uploading a new site version.</p>${actionBtn('export','↓ Export progress (.json)','primary wide')}${actionBtn('import','↑ Import saved progress','outline wide topgap')}${actionBtn('reset','Reset all saved progress','textlink topgap')}</div><div class="footertext">TalkTrip v2.1.1 · iPhone audio repair · No account, external API, or external scripts. Speech playback uses your device/browser voices; recording and exercises run locally. No automatic pronunciation scoring. Branching dialogues use curated scripts rather than generative AI. In a medical or allergy situation, confirm with qualified local staff.</div>`;}
+<div class="section"><h2>Keep your progress safe</h2><p class="sub" style="margin:9px 0 13px">Saved in this device's browser. Export a backup before switching phones, clearing browser data, or uploading a new site version.</p>${actionBtn('export','↓ Export progress (.json)','primary wide')}${actionBtn('import','↑ Import saved progress','outline wide topgap')}${actionBtn('reset','Reset all saved progress','textlink topgap')}</div><div class="footertext">TalkTrip v2.1.2 · iPhone playback diagnostics · No account, external API, or external scripts. Speech playback uses your device/browser voices; recording and exercises run locally. No automatic pronunciation scoring. Branching dialogues use curated scripts rather than generative AI. In a medical or allergy situation, confirm with qualified local staff.</div>`;}
 function normalize(s,lang){let result=String(s||'').toLowerCase().normalize('NFKC').replace(/[.,!?;:，。！？、・“”「」『』\-'’‘]/g,'').trim();if(lang==='it')result=result.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ');else result=result.replace(/\s+/g,'');return result;}
 function similarity(a,b){if(!a||!b)return 0;const p=a.length,q=b.length;const row=Array(q+1).fill(0).map((_,i)=>i);for(let i=1;i<=p;i++){let last=row[0];row[0]=i;for(let j=1;j<=q;j++){const t=row[j];row[j]=Math.min(row[j]+1,row[j-1]+1,last+(a[i-1]===b[j-1]?0:1));last=t;}}return 1-row[q]/Math.max(p,q);}
 function targetForSpeak(){const sc=scene();if(S.tab!=='scene')return null;if(S.mode==='speak')return sc.turns.filter(x=>x.role==='you')[S.speakStep];if(S.mode==='chat')return sc.turns[S.chatStep];return null;}
@@ -580,7 +624,10 @@ case 'reviewReveal':S.reviewReveal=true;render();break;case 'grade':gradeCard(v)
 case 'libraryType':S.libraryType=v;S.libraryCount=36;render();break;case 'libraryMore':S.libraryCount+=36;render();break;
 case 'toggleReading':P.settings.reading=!P.settings.reading;persist();render();break;case 'toggleEnglish':P.settings.hideEnglish=!P.settings.hideEnglish;persist();render();break;
 case 'retryAudio':retryAudio();break;
-case 'testVoice':speak(S.lang==='ja'?'すみません、もう少しゆっくり話していただけますか。':'Scusi, può parlare un po’ più lentamente?');break;
+case 'testSound':testSound();break;
+case 'testVoice':audioTestVoice('default');break;
+case 'testVoiceAlt':audioTestVoice('selected');break;
+case 'copyAudioReport':{const report=audioReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>toast('Diagnostics copied.')).catch(()=>window.prompt('Copy diagnostics:',report));}else window.prompt('Copy diagnostics:',report);break;}
 case 'export':exportFile();break;case 'import':$('#import-file').click();break;case 'reset':if(window.confirm('Clear progress for BOTH languages? Export a backup first if you want to keep it.')){P=initData();seedDeck(P);persist();navigate('home');toast('Progress reset.');}break;
 }});
 

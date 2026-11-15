@@ -1,7 +1,15 @@
-# TalkTrip v2.1.1 — iPhone Voice Playback Repair
+# TalkTrip v2.1.2 — iPhone playback repair
 
-Upload index.html to the same GitHub Pages repository and keep the same website address to preserve locally saved progress. Export a JSON backup first.
+No API calls, no external scripts. All lessons, flashcards and progress from v2.1 remain.
 
-On your iPhone, open the HTTPS site in Safari, unlock the device, open Me → Audio & learning → Test voice. If no sound, tap Retry audio / reset speech. Try a different Japanese or Italian voice if one is available. Turn up media volume and disconnect Bluetooth headphones to rule out an output issue.
+## Install
+Upload index.html to the same GitHub Pages repo as your prior version. Export a JSON backup of progress before upgrading. Keep the same domain and browser to retain local saved data.
 
-This version changes speechSynthesis handling and adds diagnostic feedback. It does not use an external API. Actual iOS Safari audio must be tested on a real iPhone; WebKit behaviour varies across versions.
+## iPhone diagnostic sequence
+In Safari over HTTPS, go to Me > Audio & learning.
+1. Tap Play speaker beep. If no beep, check media volume, Bluetooth routing, and phone output.
+2. Tap Test short system voice. If no speech, tap Test selected native voice.
+3. Choose an explicit Japanese or Italian voice if desired, then try the third test again.
+4. Copy diagnostic report and share the text if still silent.
+
+Note: Safari speech synthesis is provided by iOS. A list of voices does not guarantee audible playback. WebAudio beep isolates speaker output but cannot replace system Japanese/Italian speech. This package was browser-interaction-tested using Chromium emulation, not on a physical iPhone.
