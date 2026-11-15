@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#f6f3ed" />
+<meta name="description" content="TalkTrip: personal Japanese & Italian travel conversation practice, with listening, speaking and spaced repetition." />
+<title>TalkTrip · Speak your way around</title>
+<style>
+:root{--ink:#192b3f;--muted:#72808b;--paper:#f6f3ed;--card:#fffefa;--blue:#2449a0;--bluish:#e9effe;--line:#e5e6e4;--orange:#e78b48;--mint:#dceee7;--green:#227a58;--red:#b74735;--shadow:0 12px 38px rgba(20,35,62,.055)}
+*{box-sizing:border-box}[hidden]{display:none!important}html{background:#e8e9e4;scroll-behavior:smooth}body{margin:0;font:15px/1.52 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;color:var(--ink);background:var(--paper);min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.42;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #85a9ff;outline-offset:2px} .shell{min-height:100dvh;max-width:530px;margin:auto;background:var(--paper);position:relative;padding-bottom:calc(104px + env(safe-area-inset-bottom))} @media(min-width:600px){.shell{box-shadow:0 5px 60px #1a2d3730}}
+.topbar{height:78px;display:flex;align-items:center;justify-content:space-between;padding:15px 21px 8px;gap:12px;background:var(--paper);position:sticky;top:0;z-index:8}.brand{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:840;font-size:20px;letter-spacing:-.9px}.brandmark{height:33px;width:33px;display:grid;place-items:center;background:#233f87;color:white;font-size:20px;border-radius:12px;transform:rotate(-8deg)}.brandmark span{transform:rotate(8deg)} .langswitch{display:flex;background:#e8e9e5;padding:4px;border-radius:14px;gap:3px}.langswitch button{border:0;background:transparent;color:#6b7782;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800}.langswitch button.active{background:white;color:var(--blue);box-shadow:0 2px 8px #1c2f4712}main{padding:11px 20px 20px;min-height:80vh}.eyebrow{text-transform:uppercase;letter-spacing:1.6px;font-weight:800;font-size:10px;color:var(--blue)}h1,h2,h3,p{margin:0}h1{font-size:34px;line-height:1.09;letter-spacing:-1.4px;font-weight:800}h2{font-size:23px;line-height:1.18;letter-spacing:-.6px}h3{font-size:16px;letter-spacing:-.25px}.muted{color:var(--muted)}.sub{font-size:13px;color:var(--muted);line-height:1.5}.section{margin-top:25px}.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.section-title button,.textlink{border:0;color:var(--blue);background:transparent;font-size:12px;font-weight:800;padding:6px 0}.card{background:var(--card);border:1px solid #e9e8e4;border-radius:22px;box-shadow:var(--shadow)}.hero{border-radius:26px;padding:23px 23px 25px;background:linear-gradient(145deg,#203b80,#305cc0);color:white;position:relative;overflow:hidden;margin-top:8px}.hero:after{content:"";position:absolute;width:200px;height:200px;border:1px solid #ffffff35;border-radius:50%;right:-85px;top:-57px;box-shadow:0 0 0 32px #ffffff0d,0 0 0 68px #ffffff0a;pointer-events:none}.hero .eyebrow{color:#bad1ff}.hero h1{margin-top:11px;max-width:320px}.hero p{color:#d6e1fb;max-width:290px;margin:14px 0 24px;font-size:13px}.hero .primary{position:relative;z-index:1;background:white;color:#203d84}.hero-stamp{position:absolute;right:20px;bottom:22px;font-size:47px;line-height:1;transform:rotate(-16deg);opacity:.22;font-weight:900}.primary,.secondary,.outline{border:0;border-radius:14px;padding:13px 18px;font-weight:790;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:45px}.primary{background:var(--blue);color:white}.secondary{background:var(--bluish);color:var(--blue)}.outline{background:white;border:1px solid #dbdfeb;color:var(--ink)}.wide{width:100%}.twogrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.stat{padding:16px;border-radius:17px;background:var(--card);border:1px solid var(--line)}.stat strong{font-size:25px;display:block;line-height:1.2;letter-spacing:-.6px}.stat span{font-size:12px;color:var(--muted)}.actioncard{border-radius:19px;background:white;padding:16px;border:1px solid var(--line);text-align:left;display:flex;gap:12px;align-items:flex-start;width:100%;color:var(--ink)}.actionicon{width:42px;height:42px;flex:none;display:grid;place-items:center;font-size:22px;border-radius:13px;background:var(--bluish);color:var(--blue)}.actioncard h3{margin:2px 0 4px}.tiny{font-size:11px;color:var(--muted)}.pill{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:100px;background:#eef1f5;color:#5a6673;font-weight:750;font-size:11px}.pill.good{background:#e1f2e8;color:var(--green)}.pill.warm{background:#fff0de;color:#965521}.bars{height:7px;background:#e3e7ec;border-radius:15px;overflow:hidden}.bars span{display:block;height:100%;background:#4970c9;border-radius:15px;transition:width .2s}.scroller{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-right:-20px;padding-right:20px}.scroller::-webkit-scrollbar{display:none}.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}.chip{flex:none;border:1px solid #dddfe3;background:white;color:#607184;padding:8px 12px;border-radius:100px;font-size:12px;font-weight:770}.chip.active{background:#243f85;border-color:#243f85;color:white}.scene-tile{padding:16px 17px;display:block;text-align:left;color:var(--ink);background:white;border:1px solid var(--line);border-radius:19px;width:100%;margin-bottom:10px}.scene-tile .idx{color:var(--orange);font-weight:850;font-size:12px}.scene-tile h3{margin:5px 0 4px;font-size:16px}.scene-top{display:flex;align-items:start;justify-content:space-between;gap:10px}.scene-tile .arrow{font-size:19px;color:#7d8e9b}.scene-list{margin-top:10px}.path{font-size:11px;color:var(--muted);margin:7px 0 9px}.back{background:transparent;border:0;padding:8px 0;margin-bottom:10px;color:var(--blue);font-weight:790;font-size:13px}.scene-head{padding:20px 20px 22px;background:white;border:1px solid var(--line);border-radius:22px}.scene-head p{margin-top:9px}.scene-head .pill{margin-top:14px}.modes{display:flex;gap:7px;overflow-x:auto;padding:14px 0 15px;scrollbar-width:none}.modes button{white-space:nowrap;border:1px solid var(--line);border-radius:12px;padding:10px 13px;font-size:12px;font-weight:790;background:white;color:#64717e}.modes button.active{color:white;background:var(--blue);border-color:var(--blue)}.practice{padding:20px;border-radius:22px;border:1px solid var(--line);background:white;min-height:335px}.practice-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.practice .target{font-size:24px;line-height:1.55;letter-spacing:-.4px;overflow-wrap:anywhere;font-weight:650}.practice .target.it{font-size:25px;letter-spacing:-.6px}.reading{font-size:13px;color:#697888;margin-top:11px;line-height:1.7}.english{font-size:14px;color:#495b6b;margin-top:12px;padding:11px 13px;background:#f5f6f6;border-radius:12px}.promptbox{padding:16px 17px;border-radius:16px;background:#eaf0fc;font-size:19px;font-weight:700;line-height:1.42;margin:12px 0 18px}.practice-footer{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.practice-footer>*{flex:1}.navrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:17px}.navrow .outline{padding:9px 16px}.tracklabel{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#66788d}.tone{text-transform:uppercase;font-size:10px;font-weight:800;letter-spacing:1px;color:#b36d36;margin-bottom:7px}.inputline{width:100%;padding:13px 14px;border:1px solid #d7dce1;border-radius:13px;margin:5px 0;color:var(--ink);background:#fff;font-size:15px}.notice{padding:12px 14px;border-radius:13px;background:#f1f3f5;color:#506172;font-size:12px;margin-top:12px}.notice.good{background:#e0f2e9;color:#246b4d}.notice.bad{background:#ffebe7;color:#9a493d}.wordsrow{display:flex;align-items:center;gap:9px;padding:12px 0;border-bottom:1px solid #eceeea}.wordsrow:last-child{border-bottom:0}.wordsrow .term{font-weight:700;font-size:16px}.wordsrow .term.jp{font-size:18px}.wordsrow .definition{font-size:12px;color:var(--muted)}.grow{flex:1;min-width:0}.mini{flex:none;background:#eef2fb;color:#3152a3;border:none;border-radius:11px;min-width:38px;height:37px;padding:5px 10px;font-size:15px;font-weight:750}.mini.saved{background:#fff0dc;color:#ae6c2c}.options{display:grid;gap:9px;margin-top:22px}.option{background:#f6f7f8;text-align:left;border:1px solid #e7eaee;border-radius:14px;padding:12px 14px;color:var(--ink);font-size:13px;line-height:1.4}.option.chosen{border-color:#456bc3;background:#edf2ff}.option.correct{border-color:#62ad82;background:#e5f5ec}.option.wrong{border-color:#e38b79;background:#fff0eb}.chatline{display:flex;gap:9px;align-items:flex-start;margin:10px 0}.avatar{flex:none;display:grid;place-items:center;height:30px;width:30px;border-radius:10px;background:#e7ebf0;font-size:10px;font-weight:850;color:#536477}.avatar.you{background:#e6edfe;color:#3155ad}.bubble{flex:1;padding:15px;background:#f2f3f2;border-radius:4px 16px 16px 16px;font-size:16px;line-height:1.6}.bubble.you{background:#eaf0ff;border-radius:16px 4px 16px 16px}.bubble .hint{font-size:12px;color:#6c7885;margin-top:7px}.journey-done{text-align:center;padding:34px 14px}.journey-done .medal{font-size:54px;color:#db8a49}.deckfront{min-height:245px;display:flex;justify-content:center;align-items:center;text-align:center;flex-direction:column;padding:16px}.deckfront h2{font-size:27px;line-height:1.5;margin-top:18px}.deckactions{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:15px}.deckactions button{border:1px solid var(--line);border-radius:13px;background:white;font-size:12px;font-weight:800;min-height:50px;color:var(--ink)}.deckactions span{display:block;font-size:10px;font-weight:500;color:var(--muted)}.search{padding:14px 15px;background:white;border:1px solid var(--line);border-radius:14px;width:100%;margin:14px 0 10px}.countlabel{font-size:12px;color:var(--muted);margin-bottom:10px}.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 0;border-bottom:1px solid var(--line)}.setting-row strong{font-size:14px}.setting-row select{max-width:160px;border:1px solid var(--line);padding:9px;border-radius:10px;color:var(--ink);background:white}.toggle{background:#dedfdf;border:none;border-radius:25px;width:46px;height:26px;position:relative;flex:none}.toggle:after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;background:white;border-radius:50%;transition:left .2s}.toggle.on{background:#345db2}.toggle.on:after{left:23px}.bottomnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:530px;height:calc(70px + env(safe-area-inset-bottom));padding:9px 11px calc(9px + env(safe-area-inset-bottom));background:#fffefa;border-top:1px solid #e4e6e2;display:grid;grid-template-columns:repeat(5,1fr);z-index:10}.navitem{border:0;background:transparent;color:#87919e;font-weight:720;display:flex;flex-direction:column;align-items:center;gap:0;font-size:10px;padding:0}.navitem.active{color:#2449a0}.navsym{font-size:21px;font-weight:600;height:28px;line-height:28px}.toast{position:fixed;z-index:40;bottom:calc(83px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 40px);max-width:470px;pointer-events:none;background:#213752;color:white;padding:12px 17px;border-radius:13px;box-shadow:0 8px 40px #0003;font-size:13px;display:none}.toast.show{display:block}.warning{background:#fff3e2;color:#915b2b;font-size:12px;padding:12px 14px;border-radius:13px}.divider{height:1px;background:var(--line);margin:16px 0}.text-sm{font-size:13px}.center{text-align:center}.empty{padding:28px 20px;background:#fff;border:1px solid var(--line);border-radius:18px;text-align:center}.badgecap{font-size:11px;font-weight:700;color:var(--green)}.topgap{margin-top:15px}.row{display:flex;align-items:center;gap:9px}.switchbar{margin-top:10px;background:#e8ecef;border-radius:12px;display:flex;padding:3px}.switchbar button{flex:1;border:0;background:transparent;padding:10px 0;font-size:12px;font-weight:780;color:#75808c;border-radius:10px}.switchbar button.active{background:white;color:#2449a0}.footertext{margin-top:24px;font-size:11px;color:#8b949d;line-height:1.5}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head><body><div class="shell"><header class="topbar"><div class="brand"><div class="brandmark"><span>↗</span></div><span>talktrip<span style="color:#e48f51">.</span></span></div><div class="langswitch" aria-label="Study language"><button data-action="language" data-value="ja">JP · A2</button><button data-action="language" data-value="it">IT · A1</button></div></header><main id="app" aria-live="polite"></main><nav class="bottomnav" aria-label="Main navigation" id="bottomnav"></nav></div><div id="toast" class="toast" role="status"></div><input id="import-file" hidden type="file" accept="application/json,.json" />
+<script>
+// Curated, editable lesson content. Entries are role | target phrase | reading (JP) | English.
+const LESSONS = {
+ ja: [
+ ['airport','Arriving in Japan','Arrival hall','Ask about transport and find your way out','Use すみません to get attention politely.',`
+local|何かお困りですか。|なにか おこまりですか|Can I help you?
+you|すみません、市内への行き方を教えてください。|すみません、しないへの いきかたを おしえてください|Excuse me, could you tell me how to get downtown?
+local|電車とバスがあります。|でんしゃと バスが あります|There are trains and buses.
+you|どちらのほうが早いですか。|どちらの ほうが はやいですか|Which one is faster?
+local|電車のほうが早いと思います。|でんしゃの ほうが はやいと おもいます|I think the train is faster.
+you|切符はどこで買えますか。|きっぷは どこで かえますか|Where can I buy a ticket?
+local|あちらの券売機で買えます。|あちらの けんばいきで かえます|You can buy one at that ticket machine.
+you|ありがとうございます。助かりました。|ありがとうございます。たすかりました|Thank you. That was a big help.`, `空港|くうこう|airport;市内|しない|city centre;到着|とうちゃく|arrival;切符|きっぷ|ticket;券売機|けんばいき|ticket machine;電車|でんしゃ|train;早い|はやい|fast;乗り場|のりば|boarding area`],
+ ['train','Trains & metro','Station platform','Buy the right ticket and transfer','Japanese station staff often explain the route one step at a time.',`
+local|どちらまで行かれますか。|どちらまで いかれますか|Where are you going?
+you|新宿駅まで行きたいです。|しんじゅくえきまで いきたいです|I want to go to Shinjuku Station.
+local|二番線から乗ってください。|にばんせんから のってください|Please board at platform two.
+you|途中で乗り換えが必要ですか。|とちゅうで のりかえが ひつようですか|Do I need to change trains on the way?
+local|はい、一回だけ乗り換えます。|はい、いっかいだけ のりかえます|Yes, just one transfer.
+you|次の電車は何時に出ますか。|つぎの でんしゃは なんじに でますか|What time does the next train leave?
+local|あと五分で来ます。|あと ごふんで きます|It arrives in five minutes.
+you|この電車は急行ですか。|この でんしゃは きゅうこうですか|Is this train an express?`, `駅|えき|station;乗り換え|のりかえ|transfer;ホーム|ホーム|platform;急行|きゅうこう|express train;各駅停車|かくえきていしゃ|local train;時刻表|じこくひょう|timetable;片道|かたみち|one way;往復|おうふく|round trip`],
+ ['taxi','Taxis & buses','Getting around','Explain where to go and ask about fares','Use ここで止めてください when you want to get out.',`
+local|どちらまでですか。|どちらまでですか|Where to?
+you|この住所までお願いします。|この じゅうしょまで おねがいします|To this address, please.
+local|高速道路を使ってもいいですか。|こうそくどうろを つかっても いいですか|May I use the highway?
+you|できれば一般道でお願いします。|できれば いっぱんどうで おねがいします|Regular roads if possible, please.
+local|この辺りでよろしいですか。|この あたりで よろしいですか|Is around here okay?
+you|もう少し先で止めてください。|もう すこし さきで とめてください|Please stop a little farther ahead.
+local|お支払いは現金ですか。|おしはらいは げんきんですか|Are you paying cash?
+you|カードでも払えますか。|カードでも はらえますか|Can I also pay by card?`, `住所|じゅうしょ|address;運転手|うんてんしゅ|driver;料金|りょうきん|fare;現金|げんきん|cash;高速道路|こうそくどうろ|highway;バス停|バスてい|bus stop;降りる|おりる|get off;止める|とめる|stop`],
+ ['directions','Asking directions','In the neighbourhood','Ask locals how to reach places','まっすぐ is straight ahead; 曲がる means turn.',`
+local|はい、どうしましたか。|はい、どうしましたか|Yes, what can I do for you?
+you|この近くに郵便局はありますか。|この ちかくに ゆうびんきょくは ありますか|Is there a post office nearby?
+local|まっすぐ行って、二つ目を右です。|まっすぐ いって、ふたつめを みぎです|Go straight and turn right at the second street.
+you|ここから歩いて何分ぐらいですか。|ここから あるいて なんぷんぐらいですか|About how many minutes on foot from here?
+local|十分ぐらいですよ。|じゅっぷんぐらいですよ|About ten minutes.
+you|この道で合っていますか。|この みちで あっていますか|Am I going the right way?
+local|はい、信号を渡ってください。|はい、しんごうを わたってください|Yes, cross at the traffic light.
+you|わかりました。ありがとうございます。|わかりました。ありがとうございます|Got it. Thank you.`, `近く|ちかく|nearby;交差点|こうさてん|intersection;信号|しんごう|traffic light;右|みぎ|right;左|ひだり|left;まっすぐ|まっすぐ|straight ahead;徒歩|とほ|on foot;曲がる|まがる|turn`],
+ ['hotel','Hotel check-in','At reception','Check in and ask about your room','予約しています is a natural way to say you have a booking.',`
+local|いらっしゃいませ。ご予約はありますか。|いらっしゃいませ。ごよやくは ありますか|Welcome. Do you have a reservation?
+you|はい、田中という名前で予約しています。|はい、たなかという なまえで よやくしています|Yes, I have a reservation under the name Tanaka.
+local|パスポートを見せていただけますか。|パスポートを みせていただけますか|May I see your passport?
+you|はい、どうぞ。朝食は付いていますか。|はい、どうぞ。ちょうしょくは ついていますか|Here you go. Is breakfast included?
+local|はい、一階で七時からです。|はい、いっかいで しちじからです|Yes, on the first floor from seven.
+you|チェックアウトは何時ですか。|チェックアウトは なんじですか|What time is checkout?
+local|午前十一時までです。|ごぜん じゅういちじまでです|By eleven in the morning.
+you|荷物を預かってもらえますか。|にもつを あずかってもらえますか|Could you store my luggage?`, `予約|よやく|reservation;受付|うけつけ|reception;宿泊|しゅくはく|overnight stay;朝食|ちょうしょく|breakfast;鍵|かぎ|key;荷物|にもつ|luggage;預ける|あずける|leave in someone's care;部屋|へや|room`],
+ ['hotel_issue','Hotel problems','Fixing a problem','Ask for help when something is wrong','Use ～が動きません for something that does not work.',`
+local|フロントでございます。|フロントで ございます|Front desk speaking.
+you|すみません、部屋のエアコンが動きません。|すみません、へやの エアコンが うごきません|Excuse me, the air conditioner in my room does not work.
+local|申し訳ございません。すぐ確認します。|もうしわけございません。すぐ かくにんします|I'm sorry. We'll check right away.
+you|別の部屋に変えてもらえますか。|べつの へやに かえてもらえますか|Could you move me to another room?
+local|空いている部屋を調べます。|あいている へやを しらべます|I'll check for an available room.
+you|それと、タオルをもう一枚お願いします。|それと、タオルを もう いちまい おねがいします|Also, one more towel, please.
+local|かしこまりました。|かしこまりました|Certainly.
+you|何時ごろ来ていただけますか。|なんじごろ きていただけますか|Around what time could you come?`, `故障|こしょう|breakdown;動く|うごく|work; move;交換|こうかん|exchange;修理|しゅうり|repair;お湯|おゆ|hot water;騒音|そうおん|noise;空調|くうちょう|air conditioning;対応|たいおう|assistance`],
+ ['cafe','Ordering at a café','Coffee break','Order a drink and chat with staff','お持ち帰り is takeaway; 店内 is eat in.',`
+local|ご注文はお決まりですか。|ごちゅうもんは おきまりですか|Have you decided what to order?
+you|カフェラテを一つお願いします。|カフェラテを ひとつ おねがいします|One café latte, please.
+local|ホットとアイス、どちらにしますか。|ホットと アイス、どちらに しますか|Hot or iced?
+you|アイスで、甘さ控えめにできますか。|アイスで、あまさ ひかえめに できますか|Iced, and could you make it less sweet?
+local|はい。店内でお召し上がりですか。|はい。てんないで おめしあがりですか|Sure. Will you have it here?
+you|ここで飲みます。おすすめは何ですか。|ここで のみます。おすすめは なんですか|I'll drink it here. What do you recommend?
+local|季節限定のケーキが人気です。|きせつげんていの ケーキが にんきです|The seasonal cake is popular.
+you|じゃあ、それも一つください。|じゃあ、それも ひとつ ください|Then I'll have one of those too.`, `注文|ちゅうもん|order;店内|てんない|inside the shop;持ち帰り|もちかえり|takeaway;甘さ|あまさ|sweetness;控えめ|ひかえめ|less; moderate;おすすめ|おすすめ|recommendation;限定|げんてい|limited edition;人気|にんき|popular`],
+ ['restaurant','Dining at a restaurant','Dinner time','Ask for a table and order naturally','お会計お願いします is a common way to ask for the bill.',`
+local|何名様ですか。|なんめいさまですか|How many people?
+you|二人です。予約はしていません。|ふたりです。よやくは していません|Two. We don't have a reservation.
+local|こちらのお席へどうぞ。|こちらの おせきへ どうぞ|Please take this table.
+you|この料理はどんな味ですか。|この りょうりは どんな あじですか|What does this dish taste like?
+local|少し辛いですが、おいしいですよ。|すこし からいですが、おいしいですよ|It's a little spicy, but delicious.
+you|では、これを一つとお茶を二つお願いします。|では、これを ひとつと おちゃを ふたつ おねがいします|Then one of these and two teas, please.
+local|ほかにご注文はありますか。|ほかに ごちゅうもんは ありますか|Would you like anything else?
+you|今は大丈夫です。お会計は後でお願いします。|いまは だいじょうぶです。おかいけいは あとで おねがいします|That's all for now. The bill later, please.`, `席|せき|seat;料理|りょうり|dish;会計|かいけい|bill;辛い|からい|spicy;味|あじ|taste;定食|ていしょく|set meal;追加|ついか|addition;おすすめ|おすすめ|recommended item`],
+ ['diet','Food preferences & allergies','Checking ingredients','Ask about ingredients clearly','For serious allergies, verify ingredients and cross-contact with staff.',`
+local|何かお探しですか。|なにか おさがしですか|Are you looking for something?
+you|この料理にはピーナッツが入っていますか。|この りょうりには ピーナッツが はいっていますか|Does this dish contain peanuts?
+local|確認してまいります。|かくにんして まいります|I'll go and check.
+you|アレルギーがあるので、入っていないものをお願いします。|アレルギーが あるので、はいっていない ものを おねがいします|I have an allergy, so please give me something without them.
+local|こちらは材料にピーナッツを使っていません。|こちらは ざいりょうに ピーナッツを つかっていません|This one does not use peanuts as an ingredient.
+you|同じ調理器具を使っていますか。|おなじ ちょうりきぐを つかっていますか|Do you use the same cooking utensils?
+local|厨房に確認いたします。|ちゅうぼうに かくにんいたします|I'll confirm with the kitchen.
+you|ありがとうございます。確認できてから注文します。|ありがとうございます。かくにんできてから ちゅうもんします|Thank you. I'll order after we confirm.`, `アレルギー|アレルギー|allergy;材料|ざいりょう|ingredient;含む|ふくむ|contain;豆|まめ|beans; nuts;乳製品|にゅうせいひん|dairy products;調理器具|ちょうりきぐ|cooking utensils;厨房|ちゅうぼう|kitchen;確認|かくにん|confirmation`],
+ ['shopping','Shopping & sizes','At a shop','Find sizes, try things on and compare','試着してもいいですか means may I try it on.',`
+local|何かお探しでしょうか。|なにか おさがしでしょうか|Are you looking for something?
+you|このシャツの別のサイズはありますか。|この シャツの べつの サイズは ありますか|Do you have another size of this shirt?
+local|何サイズをご希望ですか。|なんサイズを ごきぼうですか|What size would you like?
+you|Mサイズです。試着してもいいですか。|エムサイズです。しちゃくしても いいですか|Medium. May I try it on?
+local|試着室はあちらです。|しちゃくしつは あちらです|The fitting room is over there.
+you|少し大きいですね。小さいのはありますか。|すこし おおきいですね。ちいさいのは ありますか|It's a little big. Do you have a smaller one?
+local|在庫を確認しますね。|ざいこを かくにんしますね|I'll check the stock.
+you|ほかの色も見せていただけますか。|ほかの いろも みせていただけますか|Could you show me other colours too?`, `試着|しちゃく|try on;在庫|ざいこ|stock;サイズ|サイズ|size;色|いろ|colour;値段|ねだん|price;割引|わりびき|discount;返品|へんぴん|return item;領収書|りょうしゅうしょ|receipt`],
+ ['payment','Paying & money','At the checkout','Handle payment and receipts','別々でお願いします means separate bills, please.',`
+local|お会計は三千円です。|おかいけいは さんぜんえんです|The total is 3,000 yen.
+you|カードで払えますか。|カードで はらえますか|Can I pay by card?
+local|はい、タッチ決済も使えます。|はい、タッチけっさいも つかえます|Yes, contactless payment works too.
+you|領収書をいただけますか。|りょうしゅうしょを いただけますか|May I have a receipt?
+local|もちろんです。袋は必要ですか。|もちろんです。ふくろは ひつようですか|Of course. Do you need a bag?
+you|袋は要りません。|ふくろは いりません|I don't need a bag.
+local|お釣りはこちらです。|おつりは こちらです|Here is your change.
+you|小銭を使ってもいいですか。|こぜにを つかっても いいですか|May I pay using coins?`, `支払い|しはらい|payment;現金|げんきん|cash;小銭|こぜに|coins;お釣り|おつり|change;領収書|りょうしゅうしょ|receipt;袋|ふくろ|bag;税込み|ぜいこみ|tax included;別々|べつべつ|separately`],
+ ['locals','Meeting local people','Starting a conversation','Introduce yourself and learn about someone','初めまして is polite at the start; よろしくお願いします follows it.',`
+local|こんにちは。旅行ですか。|こんにちは。りょこうですか|Hello. Are you travelling?
+you|はい、香港から来ました。|はい、ホンコンから きました|Yes, I came from Hong Kong.
+local|日本は初めてですか。|にほんは はじめてですか|Is it your first time in Japan?
+you|二回目です。日本語を勉強しています。|にかいめです。にほんごを べんきょうしています|It's my second time. I'm studying Japanese.
+local|日本語が上手ですね。|にほんごが じょうずですね|Your Japanese is good.
+you|まだまだですが、話す練習をしたいです。|まだまだですが、はなす れんしゅうを したいです|I have a long way to go, but I want to practise speaking.
+local|どんなところが好きですか。|どんな ところが すきですか|What kind of places do you like?
+you|地元の人が行く場所に興味があります。|じもとの ひとが いく ばしょに きょうみが あります|I'm interested in places locals go to.`, `初めまして|はじめまして|nice to meet you;地元|じもと|local area;趣味|しゅみ|hobby;興味|きょうみ|interest;会話|かいわ|conversation;練習|れんしゅう|practice;出身|しゅっしん|hometown;二回目|にかいめ|second time`],
+ ['smalltalk','Everyday small talk','Chat with a neighbour','Keep a natural conversation going','Try そうなんですね and a follow-up question.',`
+local|今日はいい天気ですね。|きょうは いい てんきですね|Nice weather today, isn't it?
+you|本当ですね。週末は何をする予定ですか。|ほんとうですね。しゅうまつは なにを する よていですか|It really is. What are your plans this weekend?
+local|友達と映画を見に行きます。|ともだちと えいがを みに いきます|I'm going to see a film with friends.
+you|いいですね。どんな映画が好きですか。|いいですね。どんな えいがが すきですか|Sounds nice. What kind of films do you like?
+local|コメディーをよく見ます。|コメディーを よく みます|I often watch comedies.
+you|私も好きです。最近何かおすすめはありますか。|わたしも すきです。さいきん なにか おすすめは ありますか|I like those too. Any recent recommendations?
+local|今話題の映画がおもしろかったです。|いま わだいの えいがが おもしろかったです|The film everyone's talking about was interesting.
+you|そうなんですね。今度見てみます。|そうなんですね。こんど みてみます|Oh, I see. I'll check it out sometime.`, `天気|てんき|weather;予定|よてい|plans;最近|さいきん|recently;話題|わだい|topic;週末|しゅうまつ|weekend;今度|こんど|next time;映画|えいが|film;もちろん|もちろん|of course`],
+ ['daytrip','Day trips & recommendations','At a visitor desk','Get tips for an authentic day out','自然が好きです is a useful preference to mention.',`
+local|今日はどこに行く予定ですか。|きょうは どこに いく よていですか|Where are you planning to go today?
+you|静かで景色がきれいな場所を探しています。|しずかで けしきが きれいな ばしょを さがしています|I'm looking for somewhere quiet with beautiful views.
+local|近くの神社はいかがですか。|ちかくの じんじゃは いかがですか|How about the nearby shrine?
+you|いいですね。混んでいる時間はありますか。|いいですね。こんでいる じかんは ありますか|Sounds good. Are there busy times?
+local|午後は観光客が多いですよ。|ごごは かんこうきゃくが おおいですよ|There are many tourists in the afternoon.
+you|午前中に行ったほうがよさそうですね。|ごぜんちゅうに いった ほうが よさそうですね|It sounds better to go in the morning.
+local|近くで和菓子も食べられます。|ちかくで わがしも たべられます|You can try Japanese sweets nearby too.
+you|ぜひ行ってみたいです。|ぜひ いってみたいです|I'd really like to go.`, `景色|けしき|view;神社|じんじゃ|shrine;混む|こむ|get crowded;観光客|かんこうきゃく|tourist;静か|しずか|quiet;自然|しぜん|nature;散歩|さんぽ|walk;穴場|あなば|hidden gem`],
+ ['health','Pharmacy & feeling unwell','At a pharmacy','Explain symptoms and ask about medicine','For urgent symptoms, seek qualified medical help.',`
+local|今日はどうされましたか。|きょうは どうされましたか|How can I help you today?
+you|昨日から喉が痛くて、少し熱があります。|きのうから のどが いたくて、すこし ねつが あります|My throat has hurt since yesterday, and I have a slight fever.
+local|ほかに症状はありますか。|ほかに しょうじょうは ありますか|Do you have any other symptoms?
+you|咳も出ます。眠くならない薬はありますか。|せきも でます。ねむくならない くすりは ありますか|I also have a cough. Is there medicine that won't make me sleepy?
+local|薬剤師に確認しますね。|やくざいしに かくにんしますね|I'll check with the pharmacist.
+you|一日に何回飲めばいいですか。|いちにちに なんかい のめば いいですか|How many times a day should I take it?
+local|こちらの説明を確認してください。|こちらの せつめいを かくにんしてください|Please check these instructions.
+you|病院に行ったほうがいいですか。|びょういんに いった ほうが いいですか|Should I see a doctor?`, `喉|のど|throat;咳|せき|cough;熱|ねつ|fever;薬|くすり|medicine;症状|しょうじょう|symptom;薬剤師|やくざいし|pharmacist;病院|びょういん|hospital;痛い|いたい|painful`],
+ ['lost','Lost items & getting help','At an information desk','Describe something lost and ask what to do','Keep descriptions simple: colour, size, and where you last saw it.',`
+local|どうされましたか。|どうされましたか|What happened?
+you|財布をなくしてしまいました。|さいふを なくしてしまいました|I've lost my wallet.
+local|最後に見たのはどこですか。|さいごに みたのは どこですか|Where did you last see it?
+you|駅の近くのカフェだと思います。|えきの ちかくの カフェだと おもいます|I think it was at a café near the station.
+local|どんな財布ですか。|どんな さいふですか|What does the wallet look like?
+you|黒くて小さい革の財布です。|くろくて ちいさい かわの さいふです|It's a small black leather wallet.
+local|遺失物窓口に問い合わせてください。|いしつぶつ まどぐちに といあわせてください|Please ask at the lost property office.
+you|場所と電話番号を教えていただけますか。|ばしょと でんわばんごうを おしえていただけますか|Could you tell me the location and phone number?`, `財布|さいふ|wallet;なくす|なくす|lose;交番|こうばん|police box;遺失物|いしつぶつ|lost item;窓口|まどぐち|counter;問い合わせ|といあわせ|enquiry;革|かわ|leather;最後|さいご|last`],
+ ['friends','Making plans with friends','Weekend hangout','Practise natural casual Japanese with someone you know','These are casual forms for friends, not customers or strangers.',`
+local|今週末、暇？|こんしゅうまつ、ひま|Are you free this weekend?
+you|土曜日なら空いてるよ。|どようびなら あいてるよ|I'm free on Saturday.
+local|一緒にランチに行かない？|いっしょに ランチに いかない|Want to have lunch together?
+you|いいね！何時がいい？|いいね！なんじが いい|Sounds great! What time works?
+local|十二時ごろはどう？|じゅうにじごろは どう|How about around noon?
+you|大丈夫！どこで会おうか？|だいじょうぶ！どこで あおうか|That works! Where shall we meet?
+local|駅の前で会おう。|えきの まえで あおう|Let's meet in front of the station.
+you|わかった。楽しみにしてる！|わかった。たのしみに してる|Got it. I'm looking forward to it!`, `暇|ひま|free time;空く|あく|be available;一緒に|いっしょに|together;誘う|さそう|invite;予定|よてい|plans;会う|あう|meet;駅前|えきまえ|in front of station;楽しみ|たのしみ|looking forward to it`],
+ ['repair',"When you don't understand",'Conversation rescue','Ask locals to repeat and explain unfamiliar words','A very useful skill: repair the conversation instead of switching to English.',`
+local|この辺は初めてですか。|この あたりは はじめてですか|Is this your first time around here?
+you|すみません、もう一度言っていただけますか。|すみません、もう いちど いっていただけますか|Sorry, could you say that again?
+local|この辺に来たのは初めてですか。|この あたりに きたのは はじめてですか|Is this your first time in this area?
+you|もう少しゆっくり話してもらえますか。|もう すこし ゆっくり はなしてもらえますか|Could you speak a little more slowly?
+local|地元のおすすめを知っていますか。|じもとの おすすめを しっていますか|Do you know any local recommendations?
+you|「地元」ってどういう意味ですか。|じもとって どういう いみですか|What does “jimotō” (local area) mean?
+local|この辺りの地域という意味です。|この あたりの ちいきという いみです|It means the area around here.
+you|なるほど、勉強になりました。|なるほど、べんきょうに なりました|I see. I learned something new.`, `もう一度|もういちど|one more time;ゆっくり|ゆっくり|slowly;意味|いみ|meaning;説明|せつめい|explanation;聞き取る|ききとる|catch what was said;繰り返す|くりかえす|repeat;知らない|しらない|not know;なるほど|なるほど|I see`],
+ ],
+ it: [
+ ['airport','Arriving in Italy','Arrival hall','Find transport from the airport','Scusi is a polite way to get someone’s attention.',`
+local|Buongiorno, ha bisogno di aiuto?||Hello, do you need help?
+you|Scusi, come arrivo in centro?||Excuse me, how do I get to the city centre?
+local|Può prendere il treno o l'autobus.||You can take the train or the bus.
+you|Qual è il più veloce?||Which is faster?
+local|Il treno è più veloce.||The train is faster.
+you|Dove posso comprare il biglietto?||Where can I buy the ticket?
+local|Alla macchinetta, lì a destra.||At the machine, over there on the right.
+you|Grazie mille, molto gentile!||Thank you very much, that's very kind!`, `aeroporto||airport;centro||city centre;treno||train;autobus||bus;biglietto||ticket;uscita||exit;arrivo||arrival;veloce||fast`],
+ ['train','Trains & metro','At the station','Ask about trains and transfers','Binario means platform; stazione means station.',`
+local|Buongiorno, dove deve andare?||Hello, where do you need to go?
+you|Vorrei andare a Firenze.||I'd like to go to Florence.
+local|Il treno parte dal binario tre.||The train leaves from platform three.
+you|Devo cambiare treno?||Do I have to change trains?
+local|No, è un treno diretto.||No, it's a direct train.
+you|A che ora parte?||What time does it leave?
+local|Parte alle dieci e venti.||It leaves at 10:20.
+you|Quanto dura il viaggio?||How long is the journey?`, `stazione||station;binario||platform;partenza||departure;cambio||change;diretto||direct;orario||timetable;ritardo||delay;viaggio||journey`],
+ ['taxi','Taxis & buses','Getting around town','Give a destination and ask about the price','Per favore makes directions polite.',`
+local|Buonasera, dove andiamo?||Good evening, where are we going?
+you|A questo indirizzo, per favore.||To this address, please.
+local|Va bene. Ha fretta?||All right. Are you in a hurry?
+you|No, quanto costa più o meno?||No, how much does it cost approximately?
+local|Circa quindici euro.||About fifteen euros.
+you|Può fermarsi qui, per favore?||Can you stop here, please?
+local|Certo, siamo arrivati.||Of course, we've arrived.
+you|Posso pagare con la carta?||Can I pay by card?`, `indirizzo||address;fermata||stop;taxi||taxi;autista||driver;prezzo||price;circa||approximately;biglietto||ticket;scendere||get off`],
+ ['directions','Finding your way','In the old town','Ask for directions and follow them','Dritto means straight ahead; a destra means right.',`
+local|Mi dica, ha bisogno?||Tell me, do you need something?
+you|Scusi, dov'è la farmacia più vicina?||Excuse me, where is the nearest pharmacy?
+local|Vada sempre dritto.||Go straight ahead.
+you|Poi giro a destra o a sinistra?||Then do I turn right or left?
+local|A sinistra, dopo la piazza.||Left, after the square.
+you|È lontano da qui?||Is it far from here?
+local|No, cinque minuti a piedi.||No, five minutes on foot.
+you|Perfetto, grazie per l'aiuto!||Perfect, thanks for the help!`, `dritto||straight ahead;destra||right;sinistra||left;vicino||near;lungo||long;piazza||square;incrocio||intersection;lontano||far`],
+ ['hotel','Hotel check-in','At reception','Check in and ask practical questions','Ho una prenotazione means I have a reservation.',`
+local|Buonasera, benvenuto!||Good evening, welcome!
+you|Buonasera, ho una prenotazione.||Good evening, I have a reservation.
+local|A che nome?||Under what name?
+you|A nome Chen, per due notti.||Under Chen, for two nights.
+local|Mi dà il passaporto, per favore?||May I have your passport, please?
+you|Certo. La colazione è inclusa?||Of course. Is breakfast included?
+local|Sì, dalle sette alle dieci.||Yes, from seven to ten.
+you|A che ora è il check-out?||What time is checkout?`, `prenotazione||reservation;camera||room;chiave||key;colazione||breakfast;passaporto||passport;notte||night;ascensore||lift;reception||reception`],
+ ['hotel_issue','Hotel problems','Calling reception','Report an issue clearly','Non funziona means it is not working.',`
+local|Reception, buonasera.||Reception, good evening.
+you|Buonasera, l'aria condizionata non funziona.||Good evening, the air conditioning doesn't work.
+local|Mi dispiace. Qual è il numero della camera?||I'm sorry. What's the room number?
+you|La camera duecentoquattro.||Room 204.
+local|Mandiamo qualcuno subito.||We'll send someone right away.
+you|Posso avere anche un altro asciugamano?||Can I also have another towel?
+local|Certamente, nessun problema.||Certainly, no problem.
+you|Grazie. Quanto tempo ci vuole?||Thanks. How long will it take?`, `problema||problem;asciugamano||towel;funzionare||to work;aria condizionata||air conditioning;acqua calda||hot water;rumore||noise;subito||right away;pulito||clean`],
+ ['cafe','At the coffee bar','Morning espresso','Order a coffee and something to eat','At a bar in Italy, un caffè usually means espresso.',`
+local|Buongiorno, che cosa prende?||Good morning, what would you like?
+you|Un cappuccino, per favore.||A cappuccino, please.
+local|E da mangiare?||And something to eat?
+you|Un cornetto alla crema, grazie.||A custard-filled croissant, thanks.
+local|Qui o da portare via?||Here or to take away?
+you|Qui, grazie. Quanto costa?||Here, thanks. How much is it?
+local|Quattro euro e cinquanta.||Four euros fifty.
+you|Posso avere anche un bicchiere d'acqua?||Can I also have a glass of water?`, `caffè||coffee;cornetto||croissant;acqua||water;zucchero||sugar;latte||milk;tazza||cup;bicchiere||glass;conto||bill`],
+ ['restaurant','At a trattoria','Dinner with friends','Ask for a table and order a meal','Vorrei... is a polite and versatile way to order.',`
+local|Buonasera, avete prenotato?||Good evening, do you have a reservation?
+you|No, c'è un tavolo per due?||No, is there a table for two?
+local|Sì, prego, da questa parte.||Yes, please, this way.
+you|Possiamo vedere il menù?||Can we see the menu?
+local|Certo. Volete qualcosa da bere?||Of course. Would you like something to drink?
+you|Acqua naturale e una pasta al pomodoro, per favore.||Still water and a pasta with tomato sauce, please.
+local|Perfetto. Desiderate altro?||Perfect. Would you like anything else?
+you|Per ora no, grazie.||Not for now, thanks.`, `tavolo||table;menù||menu;antipasto||starter;primo||first course;secondo||main course;acqua naturale||still water;acqua frizzante||sparkling water;conto||bill`],
+ ['diet','Food needs & allergies','Checking the menu','Explain a food restriction','For serious allergies, ask staff to check ingredients and cross-contact.',`
+local|Ha qualche domanda sul menù?||Do you have a question about the menu?
+you|Sì, questo piatto contiene arachidi?||Yes, does this dish contain peanuts?
+local|Un momento, chiedo in cucina.||One moment, I'll ask in the kitchen.
+you|Ho un'allergia alle arachidi.||I have a peanut allergy.
+local|Capisco. Dobbiamo controllare bene.||I understand. We need to check carefully.
+you|Usate gli stessi utensili per altri piatti?||Do you use the same utensils for other dishes?
+local|Verifico e le faccio sapere.||I'll check and let you know.
+you|Grazie, aspetto prima di ordinare.||Thanks, I'll wait before ordering.`, `allergia||allergy;arachidi||peanuts;ingredienti||ingredients;senza||without;glutine||gluten;latte||milk;utensili||utensils;cucina||kitchen`],
+ ['shopping','Shopping & trying on','At a boutique','Ask for sizes and colours','Posso provarlo? means Can I try it on?',`
+local|Buongiorno, cerca qualcosa?||Hello, are you looking for something?
+you|Sì, cerco una maglietta.||Yes, I'm looking for a T-shirt.
+local|Che taglia porta?||What size do you wear?
+you|La media. Posso provarla?||Medium. Can I try it on?
+local|Certo, il camerino è lì.||Of course, the fitting room is there.
+you|È un po' grande. Avete una taglia più piccola?||It's a little big. Do you have a smaller size?
+local|Sì, vediamo in magazzino.||Yes, let's check in the stockroom.
+you|C'è anche in blu?||Is it also available in blue?`, `taglia||size;maglietta||T-shirt;colore||colour;camerino||fitting room;piccolo||small;grande||big;sconto||discount;ricevuta||receipt`],
+ ['payment','Money & checkout','At the till','Pay and request a receipt','Il conto is the bill; la ricevuta is the receipt.',`
+local|Sono ventidue euro in tutto.||It's twenty-two euros in total.
+you|Posso pagare con la carta?||Can I pay by card?
+local|Sì, certo.||Yes, of course.
+you|Avete il pagamento contactless?||Do you accept contactless payment?
+local|Sì, avvicini la carta.||Yes, tap your card.
+you|Mi dà la ricevuta, per favore?||Can you give me the receipt, please?
+local|Ecco a lei. Serve una busta?||Here you are. Do you need a bag?
+you|No, grazie. Va bene così.||No, thanks. That's fine as it is.`, `carta||card;contanti||cash;resto||change;ricevuta||receipt;busta||bag;prezzo||price;totale||total;pagare||pay`],
+ ['locals','Meeting new people','At a local gathering','Introduce yourself naturally','Piacere is a common way to say nice to meet you.',`
+local|Ciao! Come ti chiami?||Hi! What's your name?
+you|Ciao, mi chiamo Alex. Piacere!||Hi, my name is Alex. Nice to meet you!
+local|Piacere! Di dove sei?||Nice to meet you! Where are you from?
+you|Vengo da Hong Kong. E tu?||I come from Hong Kong. And you?
+local|Sono di Roma. Sei qui in vacanza?||I'm from Rome. Are you here on holiday?
+you|Sì, e sto imparando l'italiano.||Yes, and I'm learning Italian.
+local|Bello! Ti piace la città?||Great! Do you like the city?
+you|Sì, molto! Le persone sono gentili.||Yes, a lot! The people are kind.`, `ciao||hi;piacere||nice to meet you;vacanza||holiday;imparare||learn;parlare||speak;persona||person;gentile||kind;città||city`],
+ ['smalltalk','Everyday conversation','Chat at a café','Go beyond hello with small talk','E tu? keeps simple conversations going.',`
+local|Che bella giornata oggi!||What a beautiful day today!
+you|Sì, fa molto caldo!||Yes, it's very hot!
+local|Ti piace l'estate?||Do you like summer?
+you|Sì, ma preferisco la primavera.||Yes, but I prefer spring.
+local|Che cosa fai nel tempo libero?||What do you do in your free time?
+you|Mi piace giocare a tennis e viaggiare.||I like playing tennis and travelling.
+local|Anch'io amo viaggiare!||I love travelling too!
+you|Davvero? Qual è il tuo posto preferito?||Really? What's your favourite place?`, `tempo libero||free time;caldo||hot;freddo||cold;primavera||spring;estate||summer;viaggiare||travel;preferire||prefer;davvero||really`],
+ ['daytrip','Local recommendations','Planning a day out','Get ideas from people who live there','Cosa mi consiglia? means What do you recommend?',`
+local|Cosa vuoi vedere oggi?||What do you want to see today?
+you|Vorrei visitare un posto tranquillo.||I'd like to visit somewhere quiet.
+local|Ti consiglio il parco vicino al fiume.||I recommend the park near the river.
+you|È facile arrivarci in autobus?||Is it easy to get there by bus?
+local|Sì, ci vogliono venti minuti.||Yes, it takes twenty minutes.
+you|C'è un buon posto dove mangiare?||Is there a good place to eat?
+local|Sì, c'è una trattoria molto buona.||Yes, there's a very good trattoria.
+you|Ottimo! Come si chiama?||Great! What's it called?`, `parco||park;fiume||river;tranquillo||quiet;consiglio||recommendation;visitare||visit;facile||easy;posto||place;locale||local; place`],
+ ['health','Feeling unwell','At a pharmacy','Describe simple symptoms','Ask a pharmacist about appropriate medicine; seek urgent care for emergencies.',`
+local|Buongiorno, mi dica.||Hello, how can I help?
+you|Ho mal di gola e un po' di febbre.||I have a sore throat and a slight fever.
+local|Da quanti giorni?||For how many days?
+you|Da ieri. Ho anche la tosse.||Since yesterday. I also have a cough.
+local|Ha delle allergie ai farmaci?||Do you have any allergies to medicines?
+you|Non lo so. Posso parlare con il farmacista?||I don't know. Can I speak to the pharmacist?
+local|Certamente, arriva subito.||Certainly, they're coming right away.
+you|Devo andare dal medico?||Do I need to see a doctor?`, `farmacia||pharmacy;febbre||fever;tosse||cough;gola||throat;farmaco||medicine;medico||doctor;dolore||pain;allergia||allergy`],
+ ['lost','Lost belongings','At the information desk','Explain what you lost','Ho perso... means I have lost...',`
+local|Buongiorno, come posso aiutarla?||Hello, how can I help you?
+you|Ho perso il portafoglio.||I've lost my wallet.
+local|Dove l'ha visto l'ultima volta?||Where did you last see it?
+you|Credo al bar, vicino alla stazione.||I think at the café near the station.
+local|Di che colore è?||What colour is it?
+you|È nero e piccolo.||It's black and small.
+local|Può chiedere all'ufficio oggetti smarriti.||You can ask at the lost property office.
+you|Mi può scrivere l'indirizzo, per favore?||Can you write down the address for me, please?`, `perdere||lose;portafoglio||wallet;borsa||bag;telefono||phone;nero||black;ufficio||office;oggetti smarriti||lost property;indirizzo||address`],
+ ['friends','Making plans with friends','Weekend hangout','Accept invitations and arrange a casual meetup','Ciao and ti are informal: use them when people are friendly and on first-name terms.',`
+local|Ciao, sei libero sabato?||Hi, are you free on Saturday?
+you|Sì, sabato ho tempo.||Yes, I have time on Saturday.
+local|Ti va di prendere un gelato?||Do you feel like getting gelato?
+you|Volentieri! A che ora?||Gladly! At what time?
+local|Alle quattro del pomeriggio?||At four in the afternoon?
+you|Va bene. Dove ci vediamo?||Okay. Where shall we meet?
+local|Davanti al museo, in piazza.||In front of the museum, in the square.
+you|Perfetto, a sabato!||Perfect, see you Saturday!`, `libero||free;tempo||time;invitare||invite;gelato||gelato;incontrare||meet;davanti||in front of;sabato||Saturday;volentieri||gladly`],
+ ['repair',"When you don't understand",'Conversation rescue','Ask others to repeat or explain in Italian','These phrases let you stay in Italian without understanding every word.',`
+local|Mi scusi, cerca qualcosa?||Excuse me, are you looking for something?
+you|Scusi, può ripetere, per favore?||Sorry, could you repeat, please?
+local|Cerca un posto dove mangiare?||Are you looking for a place to eat?
+you|Può parlare più lentamente?||Could you speak more slowly?
+local|Sì, certo. Vuole un ristorante?||Yes, of course. Do you want a restaurant?
+you|Che cosa significa “trattoria”?||What does “trattoria” mean?
+local|È un ristorante semplice e tradizionale.||It's a simple, traditional restaurant.
+you|Ah, ho capito! Grazie per la spiegazione.||Ah, I understand! Thanks for the explanation.`, `ripetere||repeat;lentamente||slowly;significare||mean;capire||understand;spiegazione||explanation;parola||word;semplice||simple;tradizionale||traditional`],
+ ]
+};
+function parseLessons() {
+ const out={ja:[],it:[]};
+ for (const lang of ['ja','it']) for (const [id,title,place,goal,tip,turnsRaw,wordsRaw] of LESSONS[lang]) {
+   const turns=turnsRaw.trim().split('\n').map((line,i)=>{const a=line.split('|');return {id:`${lang}:${id}:p${i}`,role:a[0],target:a[1],reading:a[2]||'',en:a[3]};});
+   const words=wordsRaw.split(/;(?=[^;|\n]+\|[^;|\n]*\|)/).map((line,i)=>{const a=line.split('|');return {id:`${lang}:${id}:w${i}`,target:a[0],reading:a[1]||'',en:a[2]};});
+   out[lang].push({id,title,place,goal,tip,turns,words});
+ }
+ return out;
+}
+const DB=parseLessons();
+'use strict';
+const STORE='talktrip_mobile_v1';
+const LANG={ja:{name:'Japanese',level:'A2',voice:'ja-JP',hello:'日本語で話そう',subtitle:'Practice the Japanese you actually hear while travelling.'},it:{name:'Italian',level:'A1',voice:'it-IT',hello:'Parliamo italiano',subtitle:'Everyday Italian for cafés, travel and new friends.'}};
+const CATS={'All':['airport','train','taxi','directions','repair','hotel','hotel_issue','cafe','restaurant','diet','shopping','payment','locals','smalltalk','friends','daytrip','health','lost'], 'Getting around':['airport','train','taxi','directions','repair'], 'Food & cafés':['cafe','restaurant','diet','payment'], 'Staying':['hotel','hotel_issue'], 'Meeting people':['locals','smalltalk','friends','daytrip'], 'Other':['shopping','health','lost']};
+const INDEX={};for(const language of ['ja','it'])for(const sc of DB[language])for(const item of [...sc.turns,...sc.words]) INDEX[item.id]={...item,sceneId:sc.id,sceneTitle:sc.title,lang:language,type:item.id.includes(':w')?'word':'phrase'};
+const $=s=>document.querySelector(s); const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const localDay=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const unique=(a)=>[...new Set(a)];
+function initData(){return {deck:{},completed:{ja:{},it:{}},logs:{ja:{},it:{}},last:{ja:'cafe',it:'cafe'},settings:{speed:0.9,reading:true,hideEnglish:false,voices:{ja:'',it:''}},lifetime:{ja:{reviewed:0,conversations:0},it:{reviewed:0,conversations:0}}};}
+function seedDeck(p){for(const lang of ['ja','it'])for(const scid of ['cafe'])for(let k=0;k<6;k++){const id=`${lang}:${scid}:w${k}`;p.deck[id]={due:Date.now(),reps:0,interval:0,ease:2.5};}}
+function loadData(){try{const raw=localStorage.getItem(STORE);if(raw){const obj=JSON.parse(raw);if(obj&&typeof obj==='object'&&obj.deck&&obj.completed&&obj.logs&&obj.settings&&obj.last){return {...initData(),...obj,settings:{...initData().settings,...obj.settings,voices:{ja:'',it:'',...(obj.settings.voices||{})}}};}}}catch(err){}const fresh=initData();seedDeck(fresh);return fresh;}
+let P=loadData();function persist(){try{localStorage.setItem(STORE,JSON.stringify(P));}catch(e){toast('Local storage is unavailable. Export a backup to keep your progress.');}}
+let S={lang:'ja',tab:'home',scene:'cafe',mode:'listen',step:0,speakStep:0,chatStep:0,quizAnswer:null,showAnswer:false,reviewReveal:false,answerText:'',answerResult:null,sceneFilter:'All',sceneSearch:'',libraryType:'all',librarySearch:'',libraryCount:36};
+let recognition=null,recording=null,recordStream=null,recordParts=[],recordURL=null,recordDiscard=false,recognizing=false;let voices=[];let toastTimer=null;
+function toast(msg){const el=$('#toast');if(!el)return;el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),4000);}
+function scene(){return DB[S.lang].find(x=>x.id===S.scene)||DB[S.lang][0];}
+function todayLog(){const logs=P.logs[S.lang]||(P.logs[S.lang]={});return logs[localDay()]||{listen:0,speak:0,review:0,chat:0,quiz:0};}
+function addLog(field){const logs=P.logs[S.lang]||(P.logs[S.lang]={});const d=localDay();if(!logs[d])logs[d]={listen:0,speak:0,review:0,chat:0,quiz:0};logs[d][field]=(logs[d][field]||0)+1;persist();}
+function studiedDays(){return Object.keys(P.logs[S.lang]||{}).filter(k=>Object.values(P.logs[S.lang][k]).some(v=>v>0)).length;}
+function dueIds(){return Object.keys(P.deck).filter(id=>id.startsWith(S.lang+':')&&INDEX[id]&&Number(P.deck[id].due)<=Date.now()).sort((a,b)=>(P.deck[a].due||0)-(P.deck[b].due||0));}
+function savedIds(){return Object.keys(P.deck).filter(id=>id.startsWith(S.lang+':')&&INDEX[id]);}
+function actionBtn(action,content,cls='',attrs=''){return `<button class="${cls}" data-action="${action}" ${attrs}>${content}</button>`;}
+function ttsSupported(){return 'speechSynthesis' in window;}
+function updateVoices(){voices=ttsSupported()?window.speechSynthesis.getVoices():[];if(S.tab==='settings')render();}
+if(ttsSupported()){voices=window.speechSynthesis.getVoices();window.speechSynthesis.addEventListener?.('voiceschanged',updateVoices);}
+function speak(text,lang=S.lang){if(!ttsSupported()){toast('Text-to-speech is not available in this browser.');return;}try{window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text);utterance.lang=LANG[lang].voice;utterance.rate=Number(P.settings.speed)||0.9;utterance.pitch=1;const named=P.settings.voices?.[lang];const selected=voices.find(v=>v.voiceURI===named)||voices.find(v=>v.lang.toLowerCase().startsWith(lang==='ja'?'ja':'it'));if(selected)utterance.voice=selected;window.speechSynthesis.speak(utterance);addLog('listen');if(!selected)toast('No matching language voice was found; install a Japanese/Italian system voice if pronunciation sounds wrong.');}catch(e){toast('Audio could not play. Try tapping again or selecting a voice in Settings.');}}
+function clearRecording(){recordDiscard=true;if(recordURL){URL.revokeObjectURL(recordURL);recordURL=null;}}
+function cleanupAudio(){clearRecording();try{if(recognition){recognition.abort();recognition=null;}}catch(e){}recognizing=false;try{if(recording&&recording.state==='recording')recording.stop();}catch(e){}try{recordStream?.getTracks().forEach(t=>t.stop());}catch(e){}recording=null;recordStream=null;if(ttsSupported())window.speechSynthesis.cancel();}
+function resetPractice(){S.step=0;S.speakStep=0;S.chatStep=0;S.quizAnswer=null;S.showAnswer=false;S.answerText='';S.answerResult=null;}
+function navigate(tab){cleanupAudio();S.tab=tab;S.reviewReveal=false;S.answerResult=null;S.answerText='';S.libraryCount=36;render();window.scrollTo({top:0,behavior:'instant'});}
+function enterScene(id,mode='listen'){cleanupAudio();if(!DB[S.lang].some(x=>x.id===id))return;S.scene=id;S.mode=mode;P.last[S.lang]=id;persist();resetPractice();navigate('scene');}
+function changeLanguage(lang){if(!LANG[lang])return;cleanupAudio();S.lang=lang;S.scene=P.last[lang]||'cafe';resetPractice();S.sceneFilter='All';S.sceneSearch='';S.librarySearch='';S.tab='home';render();}
+function speechText(item){return `<div class="target ${S.lang==='it'?'it':''}" lang="${LANG[S.lang].voice}">${esc(item.target)}</div>${S.lang==='ja'&&P.settings.reading&&item.reading?`<div class="reading">${esc(item.reading)}</div>`:''}`;}
+function showHeader(title,desc){return `<div class="eyebrow">${esc(LANG[S.lang].name)} · ${LANG[S.lang].level}</div><h1 style="margin:9px 0">${esc(title)}</h1><p class="sub">${esc(desc)}</p>`;}
+function renderNav(){const items=[['home','⌂','Today'],['scenes','▦','Scenarios'],['review','◈','Review'],['library','≡','Phrasebook'],['settings','⚙','Me']];$('#bottomnav').innerHTML=items.map(([id,sym,label])=>`<button class="navitem ${S.tab===id||(S.tab==='scene'&&id==='scenes')?'active':''}" data-action="navigate" data-value="${id}" aria-label="${label}"><span class="navsym" aria-hidden="true">${sym}</span>${label}</button>`).join('');document.querySelectorAll('.langswitch button').forEach(b=>{b.classList.toggle('active',b.dataset.value===S.lang);b.setAttribute('aria-pressed',String(b.dataset.value===S.lang));});}
+function render(){renderNav();const m=$('#app');if(S.tab==='home')m.innerHTML=home();else if(S.tab==='scenes')m.innerHTML=scenesView();else if(S.tab==='scene')m.innerHTML=sceneView();else if(S.tab==='review')m.innerHTML=reviewView();else if(S.tab==='library')m.innerHTML=libraryView();else m.innerHTML=settingsView();}
+function home(){const lang=LANG[S.lang],log=todayLog(),due=dueIds().length, completed=Object.keys(P.completed[S.lang]||{}).length,scid=P.last[S.lang]||'cafe',sc=DB[S.lang].find(x=>x.id===scid)||DB[S.lang][0];const progress=Math.min(100,Math.round(((Math.min(log.quiz,3)/3)+(Math.min(log.speak,3)/3)+(Math.min(log.review,5)/5))*100/3));return `
+<div class="hero"><div class="eyebrow">YOUR POCKET LANGUAGE COACH</div><h1>${esc(lang.hello)}</h1><p>${esc(lang.subtitle)} Listen first. Answer aloud. Remember it tomorrow.</p>${actionBtn('startMission','Start today’s practice <span aria-hidden="true">→</span>','primary')}<span class="hero-stamp" aria-hidden="true">${S.lang==='ja'?'東京':'ROMA'}</span></div>
+<div class="section"><div class="section-title"><h2>Your daily rhythm</h2><span class="pill ${progress===100?'good':'warm'}">${progress}% today</span></div><div class="card" style="padding:18px"><div class="bars"><span style="width:${progress}%"></span></div><div class="twogrid" style="margin-top:16px;grid-template-columns:repeat(3,1fr);gap:6px"><div class="center"><strong>${Math.min(log.quiz,3)}/3</strong><div class="tiny">Listen quiz</div></div><div class="center"><strong>${Math.min(log.speak,3)}/3</strong><div class="tiny">Speak</div></div><div class="center"><strong>${Math.min(log.review,5)}/5</strong><div class="tiny">Review</div></div></div></div></div>
+<div class="section"><div class="section-title"><h2>Choose your practice</h2></div><div class="twogrid">
+${actionBtn('launchQuiz',`<div class="actionicon">◖))</div><div><h3>Listen & choose</h3><div class="tiny">Understand real phrases</div></div>`,'actioncard')}
+${actionBtn('launchSpeak',`<div class="actionicon">◉</div><div><h3>Speak out loud</h3><div class="tiny">Answer in ${lang.name}</div></div>`,'actioncard')}
+${actionBtn('launchChat',`<div class="actionicon">❞</div><div><h3>Travel dialogue</h3><div class="tiny">Take your turn to talk</div></div>`,'actioncard')}
+${actionBtn('navigate',`<div class="actionicon">◈</div><div><h3>Memory cards</h3><div class="tiny">${due} ready to review</div></div>`,'actioncard','data-value="review"')}
+</div></div>
+<div class="section"><div class="section-title"><h2>Continue exploring</h2>${actionBtn('navigate','All scenarios','textlink','data-value="scenes"')}</div><button class="scene-tile" data-action="openScene" data-value="${esc(sc.id)}"><div class="scene-top"><div><div class="eyebrow">YOUR LAST DESTINATION</div><h3>${esc(sc.title)}</h3><div class="sub">${esc(sc.goal)}</div></div><div class="arrow">↗</div></div></button></div>
+<div class="twogrid topgap"><div class="stat"><strong>${completed}<span style="font-size:15px"> / ${DB[S.lang].length}</span></strong><span>Dialogues completed</span></div><div class="stat"><strong>${studiedDays()}</strong><span>Active learning days</span></div></div>
+<div class="footertext">A2 Japanese uses natural polite conversation; A1 Italian builds the same skills with simpler structures. Progress is stored in this browser, on this device.</div>`;}
+function scenesView(){let content=showHeader('Your travel situations','Learn the words, then practise the conversation. One useful scene at a time.');content+=`<input class="search" id="scene-search" aria-label="Search scenes" placeholder="Search situations..." value="${esc(S.sceneSearch)}" /><div class="chips">${Object.keys(CATS).map(c=>actionBtn('filterScenes',esc(c),`chip ${S.sceneFilter===c?'active':''}`,`data-value="${esc(c)}"`)).join('')}</div><div id="scene-list" class="scene-list">${sceneListItems(S.sceneSearch)}</div><p id="scene-no-results" class="sub center" hidden>No matching situations found.</p>`;return content;}
+function sceneListItems(search=''){const synonyms={restaurant:'restaurant trattoria dinner eating',cafe:'cafe coffee bar espresso',hotel:'hotel accommodation stay',train:'train subway metro rail',taxi:'cab rides taxi',locals:'friends meet locals conversation',smalltalk:'conversation small talk chat'};const scenes=DB[S.lang].filter(sc=>CATS[S.sceneFilter].includes(sc.id)&&`${sc.title} ${sc.goal} ${sc.place} ${synonyms[sc.id]||''}`.toLowerCase().includes(search.toLowerCase()));return scenes.map((sc,i)=>{const completed=!!P.completed[S.lang]?.[sc.id];return `<button class="scene-tile" data-action="openScene" data-value="${sc.id}"><div class="scene-top"><div style="min-width:0"><div class="row"><span class="idx">${String(DB[S.lang].findIndex(s=>s.id===sc.id)+1).padStart(2,'0')}</span><span class="pill ${completed?'good':''}">${completed?'Practised':'Travel scene'}</span></div><h3>${esc(sc.title)}</h3><div class="sub">${esc(sc.goal)}</div><div class="tiny" style="margin-top:8px">8 dialogue lines · 8 useful words</div></div><span class="arrow">↗</span></div></button>`;}).join('');}
+function sceneView(){const sc=scene(),n=DB[S.lang].findIndex(s=>s.id===sc.id)+1;const modes=[['listen','Listen'],['quiz','Listen quiz'],['speak','Speak'],['chat','Dialogue'],['words','Words']];return `${actionBtn('navigate','← All scenarios','back','data-value="scenes"')}<div class="scene-head"><div class="eyebrow">SCENE ${String(n).padStart(2,'0')} / ${DB[S.lang].length} · ${esc(sc.place)}</div><h2 style="margin-top:10px">${esc(sc.title)}</h2><p class="sub">${esc(sc.goal)}</p><span class="pill warm">CULTURE NOTE · ${esc(sc.tip)}</span></div><div class="modes" role="tablist" aria-label="Practice mode">${modes.map(([id,label])=>`<button role="tab" aria-selected="${id===S.mode}" class="${id===S.mode?'active':''}" data-action="mode" data-value="${id}">${label}</button>`).join('')}</div>${S.mode==='listen'?listenView(sc):S.mode==='quiz'?quizView(sc):S.mode==='speak'?speakView(sc):S.mode==='chat'?chatView(sc):wordsView(sc)}`;}
+function listenView(sc){const item=sc.turns[S.step];return `<div class="practice"><div class="practice-top"><span class="tracklabel">LISTEN & REPEAT · ${S.step+1}/${sc.turns.length}</span><span class="pill">${item.role==='you'?'YOUR LINE':'LOCAL SPEAKER'}</span></div>${speechText(item)}${!P.settings.hideEnglish||S.showAnswer?`<div class="english">${esc(item.en)}</div>`:`${actionBtn('reveal','Show translation','secondary topgap')}`}<div class="practice-footer">${actionBtn('play','▶ Listen','primary',`data-id="${item.id}"`)}${actionBtn('save',P.deck[item.id]?'★ Saved':'☆ Save','secondary',`data-id="${item.id}"`)}</div><div class="notice">Listen once at normal speed. Listen again more slowly, then repeat out loud without reading.</div></div><div class="navrow">${actionBtn('prev','← Previous','outline',S.step===0?'disabled':'')}${actionBtn('next',S.step===sc.turns.length-1?'Start again ↻':'Next line →','primary')}</div>`;}
+function quizOptions(sc){const idx=S.step,actual=sc.turns[idx];const pool=sc.turns.filter((_,i)=>i!==idx);const shift=(idx*3)%pool.length;const wrong=pool.slice(shift).concat(pool.slice(0,shift)).slice(0,3);wrong.splice((idx*3+1)%4,0,actual);return wrong;}
+function quizView(sc){const item=sc.turns[S.step],opts=quizOptions(sc),answered=S.quizAnswer!==null,isRight=answered&&S.quizAnswer===item.en;return `<div class="practice"><div class="practice-top"><span class="tracklabel">LISTENING CHALLENGE · ${S.step+1}/${sc.turns.length}</span><span class="pill">NO READING</span></div><div class="center" style="padding:14px 0 8px"><div class="actionicon" style="margin:auto;height:62px;width:62px;font-size:29px;border-radius:20px">◖))</div><h3 style="margin:16px 0 10px">What did you hear?</h3><p class="sub">Play the audio, then choose the meaning.</p>${actionBtn('play','▶ Play phrase','primary topgap',`data-id="${item.id}"`)}</div><div class="options">${opts.map(x=>actionBtn('quizAnswer',esc(x.en),`option ${answered?(x.en===item.en?'correct':(S.quizAnswer===x.en?'wrong':'')):''}`,`data-value="${esc(x.en)}" ${answered?'disabled':''}`)).join('')}</div>${answered?`<div class="notice ${isRight?'good':'bad'}">${isRight?'Correct!':'Not quite.'} ${esc(item.target)}${S.lang==='ja'&&P.settings.reading?`<div class="reading">${esc(item.reading)}</div>`:''}</div>`:''}</div><div class="navrow">${actionBtn('prev','← Previous','outline',S.step===0?'disabled':'')}${actionBtn('next',S.step===sc.turns.length-1?'Replay quiz ↻':'Next sound →','primary')}</div>`;}
+function speakView(sc){const user=sc.turns.filter(x=>x.role==='you'),item=user[S.speakStep];return `<div class="practice"><div class="practice-top"><span class="tracklabel">YOUR TURN · ${S.speakStep+1}/${user.length}</span><span class="pill">SPEAK IN ${S.lang==='ja'?'JAPANESE':'ITALIAN'}</span></div><div class="tone">SAY THIS NATURALLY</div><div class="promptbox">${esc(item.en)}</div>${S.showAnswer?`<div style="margin-bottom:14px">${speechText(item)}</div>`:''}${actionBtn('reveal',S.showAnswer?'Hide example':'Need a hint? Show example','textlink')}<div class="practice-footer">${actionBtn('recognize',recognizing?'Listening...':'◉ Speak with mic','primary',recognizing?'disabled':'')}${actionBtn('play','▶ Hear example','secondary',`data-id="${item.id}"`)}</div>${recordingView()}<div class="divider"></div><label class="tracklabel" for="speak-entry">OR TYPE YOUR ANSWER</label><input id="speak-entry" class="inputline" autocomplete="off" value="${esc(S.answerText)}" placeholder="Type in ${S.lang==='ja'?'Japanese':'Italian'}"/>${actionBtn('checkAnswer','Check words','secondary wide topgap')}${resultView(item)}<div class="notice">The mic checks recognized words, not your accent or pronunciation. Recording and replay help you compare your sound yourself.</div></div><div class="navrow">${actionBtn('speakPrev','← Previous','outline',S.speakStep===0?'disabled':'')}${actionBtn('speakNext',S.speakStep===user.length-1?'Again ↻':'Next prompt →','primary')}</div>`;}
+function recordBtn(){return recording&&recording.state==='recording'?actionBtn('stopRecord','■ Stop recording','outline'):actionBtn('startRecord','● Record my voice','outline');}
+function recordingView(){return `<div class="row topgap" style="flex-wrap:wrap">${recordBtn()}${recordURL?actionBtn('playRecord','▶ Play my recording','secondary'):''}</div><p class="tiny topgap">Voice recording stays in this session; it is not uploaded or stored.</p>`;}
+function resultView(item){if(!S.answerResult)return '';const r=S.answerResult;return `<div class="notice ${r.good?'good':'bad'}"><strong>${r.good?'Good text match':'Try the phrase again'}</strong><div>${esc(r.details)}</div><div style="margin-top:6px"><strong>Model:</strong> ${esc(item.target)}</div>${r.heard?`<div><strong>Heard:</strong> ${esc(r.heard)}</div>`:''}</div>`;}
+function chatView(sc){if(S.chatStep>=sc.turns.length)return `<div class="practice journey-done"><div class="medal">✦</div><h2>You finished the conversation!</h2><p class="sub" style="margin:15px 0 24px">You navigated ${esc(sc.title.toLowerCase())}. Revisit difficult replies in your review deck.</p>${actionBtn('restartChat','Practise again','primary wide')}${actionBtn('mode','Explore the words','secondary wide topgap','data-value="words"')}</div>`;const item=sc.turns[S.chatStep],isYou=item.role==='you';return `<div class="practice"><div class="practice-top"><span class="tracklabel">LIVE DIALOGUE · ${S.chatStep+1}/${sc.turns.length}</span><span class="pill ${isYou?'warm':'good'}">${isYou?'YOUR RESPONSE':'LOCAL SPEAKS'}</span></div><div class="bars" style="margin-bottom:20px"><span style="width:${(S.chatStep+1)/sc.turns.length*100}%"></span></div>${isYou?`<div class="chatline"><div class="avatar you">YOU</div><div class="bubble you"><div class="tone">YOUR PROMPT (ENGLISH)</div>${esc(item.en)}</div></div>${S.showAnswer?`<div class="chatline"><div class="avatar">KEY</div><div class="bubble">${speechText(item)}</div></div>`:''}<div class="practice-footer">${actionBtn('recognize','◉ Speak reply','primary')}${actionBtn('reveal',S.showAnswer?'Hide answer':'Reveal answer','secondary')}</div>${recordingView()}<input id="speak-entry" class="inputline" autocomplete="off" value="${esc(S.answerText)}" placeholder="Or type your reply"/>${actionBtn('checkAnswer','Check your reply','outline wide')}${resultView(item)}`:`<div class="chatline"><div class="avatar">LOCAL</div><div class="bubble">${speechText(item)}${!P.settings.hideEnglish||S.showAnswer?`<div class="hint">${esc(item.en)}</div>`:''}</div></div><div class="practice-footer">${actionBtn('play','▶ Listen to local','primary',`data-id="${item.id}"`)}${actionBtn('reveal',S.showAnswer?'Hide translation':'Show meaning','secondary')}</div>`}<div class="navrow">${actionBtn('chatPrev','← Back','outline',S.chatStep===0?'disabled':'')}${actionBtn('chatNext',isYou?'Continue conversation →':'My turn →','primary')}</div><p class="tiny" style="margin-top:14px">Scripted practice: the next reply follows this travel scenario, not an AI-generated conversation.</p></div>`;}
+function wordsView(sc){return `<div class="practice"><div class="practice-top"><span class="tracklabel">USEFUL WORDS · ${sc.words.length}</span>${actionBtn('addPack','+ Review this pack','secondary')}</div>${sc.words.map(item=>`<div class="wordsrow"><div class="grow"><div class="term ${S.lang==='ja'?'jp':''}">${esc(item.target)}</div>${P.settings.reading&&item.reading?`<div class="tiny">${esc(item.reading)}</div>`:''}<div class="definition">${esc(item.en)}</div></div>${actionBtn('play','▶','mini',`aria-label="Listen to ${esc(item.target)}" data-id="${item.id}"`)}${actionBtn('save',P.deck[item.id]?'★':'☆',`mini ${P.deck[item.id]?'saved':''}`,`aria-label="${P.deck[item.id]?'In review deck':'Save for review'}" data-id="${item.id}"`)}</div>`).join('')}</div>`;}
+function reviewView(){const due=dueIds(),total=savedIds().length;let content=showHeader('Remember more, forget less','A few spaced-repetition cards each day, based on the phrases you choose.');content+=`<div class="twogrid topgap"><div class="stat"><strong>${due.length}</strong><span>Due now</span></div><div class="stat"><strong>${total}</strong><span>In your deck</span></div></div>`;if(!due.length)return content+`<div class="empty section"><h2>All caught up</h2><p class="sub" style="margin:10px 0 17px">New cards will appear when their next review is due. Add vocabulary from any travel scene.</p>${actionBtn('navigate','Explore vocabulary →','primary','data-value="scenes"')}<div class="topgap">${actionBtn('addStarter','Add 6 useful words','secondary')}</div></div>`;
+const item=INDEX[due[0]];content+=`<div class="section"><div class="section-title"><h2>Memory card</h2><span class="pill">${esc(item.type==='word'?'WORD':'PHRASE')}</span></div><div class="practice"><div class="tracklabel">ENGLISH → ${LANG[S.lang].name.toUpperCase()}</div><div class="deckfront"><div class="pill">${esc(item.sceneTitle)}</div><h2>${esc(item.en)}</h2>${S.reviewReveal?`<div style="margin-top:18px">${speechText(item)}</div>`:'<p class="sub" style="margin-top:18px">Try saying it aloud before revealing.</p>'}</div>${S.reviewReveal?`${actionBtn('play','▶ Hear it','secondary wide',`data-id="${item.id}"`)}<div class="deckactions">${[['again','Again','10 min'],['hard','Hard','~1 day'],['good','Good','Longer'],['easy','Easy','Longest']].map(([val,label,hint])=>actionBtn('grade',`${label}<span>${hint}</span>`,'',`data-value="${val}"`)).join('')}</div>`:actionBtn('reviewReveal','Show answer','primary wide')}</div><p class="sub topgap">Grade how well you recalled the meaning and said the phrase; there is no automatic pronunciation score.</p></div>`;return content;}
+function phrasebookItems(){return Object.values(INDEX).filter(x=>x.lang===S.lang&&(S.libraryType==='all'||x.type===S.libraryType));}
+function libraryRows(items){return items.map(x=>`<div class="wordsrow library-item"><div class="grow"><div class="term ${S.lang==='ja'?'jp':''}">${esc(x.target)}</div>${P.settings.reading&&x.reading?`<div class="tiny">${esc(x.reading)}</div>`:''}<div class="definition">${esc(x.en)} · ${esc(x.sceneTitle)}</div></div>${actionBtn('play','▶','mini',`data-id="${x.id}" aria-label="Hear phrase"`)}${actionBtn('save',P.deck[x.id]?'★':'☆',`mini ${P.deck[x.id]?'saved':''}`,`data-id="${x.id}" aria-label="Save phrase"`)}</div>`).join('');}
+function libraryView(){const all=phrasebookItems(),items=S.librarySearch?all.filter(x=>`${x.target} ${x.reading} ${x.en} ${x.sceneTitle}`.toLowerCase().includes(S.librarySearch.toLowerCase())):all;let markup=showHeader('Your travel phrasebook','Search useful phrases and words. Save any item for future review.');markup+=`<input type="search" class="search" id="library-search" placeholder="Search in English, ${LANG[S.lang].name}..." aria-label="Search phrasebook" value="${esc(S.librarySearch)}"/><div class="switchbar">${[['all','All'],['phrase','Phrases'],['word','Words']].map(([id,label])=>actionBtn('libraryType',label,S.libraryType===id?'active':'',`data-value="${id}"`)).join('')}</div><div class="countlabel topgap" id="library-count">Showing ${Math.min(items.length,S.libraryCount)} of ${items.length} items</div><div class="card" id="library-items" style="padding:4px 15px">${libraryRows(items.slice(0,S.libraryCount))}</div>`;if(items.length>S.libraryCount)markup+=actionBtn('libraryMore',`Load more (${items.length-S.libraryCount} remaining)`,'outline wide topgap');markup+=`<p id="library-empty" class="sub topgap" ${items.length?'hidden':''}>No matching words or phrases.</p>`;return markup;}
+function settingsView(){const choices=voices.filter(v=>v.lang.toLowerCase().startsWith(S.lang==='ja'?'ja':'it')),recOk=!!(window.SpeechRecognition||window.webkitSpeechRecognition),mediaOk=!!(navigator.mediaDevices?.getUserMedia&&window.MediaRecorder);const s=P.settings;return `${showHeader('Make it yours','Your private practice space and listening preferences.')}<div class="section"><h2>Audio & learning</h2><div class="setting-row"><div><strong>Speech speed</strong><div class="sub">Slow down the local voice</div></div><select id="speed" aria-label="Playback speed">${[[.75,'Slow · 0.75×'],[.9,'Gentle · 0.9×'],[1,'Normal · 1×'],[1.15,'Fast · 1.15×']].map(([v,l])=>`<option value="${v}" ${Number(s.speed)===v?'selected':''}>${l}</option>`).join('')}</select></div>${S.lang==='ja'?`<div class="setting-row"><div><strong>Show kana reading</strong><div class="sub">Helpful for unfamiliar kanji</div></div>${actionBtn('toggleReading','',`toggle ${s.reading?'on':''}`,`aria-label="Toggle Japanese reading" aria-pressed="${!!s.reading}"`)}</div>`:''}<div class="setting-row"><div><strong>Hide translations in listening</strong><div class="sub">Build comprehension before reading</div></div>${actionBtn('toggleEnglish','',`toggle ${s.hideEnglish?'on':''}`,`aria-label="Hide translations" aria-pressed="${!!s.hideEnglish}"`)}</div><div class="setting-row"><div><strong>${LANG[S.lang].name} voice</strong><div class="sub">Uses voices on your device</div></div><select id="voice" aria-label="Speech voice"><option value="">Automatic</option>${choices.map(v=>`<option value="${esc(v.voiceURI)}" ${s.voices?.[S.lang]===v.voiceURI?'selected':''}>${esc(v.name)}</option>`).join('')}</select></div>${actionBtn('testVoice','▶ Test ${LANG[S.lang].name} voice','secondary wide topgap')}<div class="notice">Text-to-speech: ${ttsSupported()?'available':'unavailable'} · Speech recognition: ${recOk?'supported by browser':'not supported'} · Voice recording: ${mediaOk?'available with microphone permission':'unavailable'}. Recognition may require internet and microphone permission, and your browser may send speech to its recognition service.</div></div>
+<div class="section"><h2>My progress</h2><div class="twogrid topgap"><div class="stat"><strong>${P.lifetime[S.lang]?.conversations||0}</strong><span>Completed dialogues</span></div><div class="stat"><strong>${P.lifetime[S.lang]?.reviewed||0}</strong><span>Cards reviewed</span></div></div></div>
+<div class="section"><h2>Keep your progress safe</h2><p class="sub" style="margin:9px 0 13px">Saved in this device's browser. Export a backup before switching phones, clearing browser data, or uploading a new site version.</p>${actionBtn('export','↓ Export progress (.json)','primary wide')}${actionBtn('import','↑ Import saved progress','outline wide topgap')}${actionBtn('reset','Reset all saved progress','textlink topgap')}</div><div class="footertext">TalkTrip v1.0 · No account or paid API required. All lessons are built into this file. Speech recognition availability and speech voices vary by device and browser; dialogue replies are scripted, not AI-generated. In a medical or allergy situation, confirm with qualified local staff.</div>`;}
+function normalize(s,lang){let result=String(s||'').toLowerCase().normalize('NFKC').replace(/[.,!?;:，。！？、・“”「」『』\-'’‘]/g,'').trim();if(lang==='it')result=result.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ');else result=result.replace(/\s+/g,'');return result;}
+function similarity(a,b){if(!a||!b)return 0;const p=a.length,q=b.length;const row=Array(q+1).fill(0).map((_,i)=>i);for(let i=1;i<=p;i++){let last=row[0];row[0]=i;for(let j=1;j<=q;j++){const t=row[j];row[j]=Math.min(row[j]+1,row[j-1]+1,last+(a[i-1]===b[j-1]?0:1));last=t;}}return 1-row[q]/Math.max(p,q);}
+function targetForSpeak(){const sc=scene();if(S.tab!=='scene')return null;if(S.mode==='speak')return sc.turns.filter(x=>x.role==='you')[S.speakStep];if(S.mode==='chat')return sc.turns[S.chatStep];return null;}
+function checkWords(value){const item=targetForSpeak();if(!item)return;const expected=normalize(item.target,S.lang),heard=normalize(value,S.lang),score=similarity(expected,heard);S.answerText=value;S.showAnswer=true;if(heard&&score<.72)autoSaveMissed(item.id);S.answerResult={good:score>=.72,details:!heard?'Nothing was recognized or entered. Try the example, then repeat.':score>=.9?'The recognized or typed words closely match the model.':score>=.72?'Your words are close. Compare the model and repeat.':'The words differ from the model. Listen, then try again.',heard:value};if(heard)addLog('speak');render();}
+function autoSaveMissed(id){if(INDEX[id]&&!P.deck[id]){P.deck[id]={due:Date.now(),reps:0,interval:0,ease:2.5};persist();toast('Difficult phrase saved for spaced review.');}}
+function beginRecognition(){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){toast('Speech recognition is unsupported here. Use the type-to-check box, or record and replay your voice.');return;}if(recognizing)return;try{recognition=new R();recognition.lang=LANG[S.lang].voice;recognition.continuous=false;recognition.interimResults=false;recognition.maxAlternatives=1;recognizing=true;toast('Listening... Speak the phrase clearly.');recognition.onresult=event=>{const words=event.results?.[0]?.[0]?.transcript||'';recognizing=false;recognition=null;checkWords(words);};recognition.onerror=event=>{recognizing=false;recognition=null;toast('Mic recognition failed ('+event.error+'). Try Chrome/Edge with microphone permission, or type your answer.');};recognition.onend=()=>{recognizing=false;recognition=null;};recognition.start();}catch(e){recognizing=false;recognition=null;toast('Speech recognition could not start. Check mic permissions and browser support.');}}
+async function startRecord(){if(recording&&recording.state==='recording')return;if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder){toast('Voice recording needs a compatible browser and microphone permission (usually HTTPS or localhost).');return;}try{clearRecording();recordDiscard=false;recordStream=await navigator.mediaDevices.getUserMedia({audio:true});recordParts=[];recording=new MediaRecorder(recordStream);recording.ondataavailable=e=>{if(e.data.size)recordParts.push(e.data);};recording.onstop=()=>{const mime=recording?.mimeType||'audio/webm';if(!recordDiscard&&recordParts.length)recordURL=URL.createObjectURL(new Blob(recordParts,{type:mime}));recordStream?.getTracks().forEach(t=>t.stop());recordStream=null;recording=null;if(!recordDiscard)render();};recording.start();render();toast('Recording locally. Tap Stop when you finish.');}catch(err){toast('Microphone unavailable or permission denied.');}}
+function stopRecord(){if(recording&&recording.state==='recording')recording.stop();}
+function gradeCard(rating){const id=dueIds()[0],rec=P.deck[id];if(!rec)return;let interval=0;rec.ease=Number(rec.ease)||2.5;rec.reps=Number(rec.reps)||0;if(rating==='again'){rec.reps=0;rec.ease=Math.max(1.3,rec.ease-.2);rec.due=Date.now()+10*60*1000;rec.interval=0;}else{if(rating==='hard'){rec.ease=Math.max(1.3,rec.ease-.15);interval=rec.reps===0?1:Math.max(1,Math.ceil((rec.interval||1)*1.2));}else if(rating==='good'){interval=rec.reps===0?1:rec.reps===1?3:Math.ceil(Math.max(1,rec.interval)*rec.ease);}else{rec.ease=Math.min(3.2,rec.ease+.15);interval=rec.reps===0?3:Math.ceil(Math.max(1,rec.interval)*rec.ease*1.35);}rec.interval=interval;rec.reps++;rec.due=Date.now()+interval*86400000;}P.lifetime[S.lang].reviewed++;addLog('review');S.reviewReveal=false;persist();render();}
+function addPack(id){const sc=DB[S.lang].find(s=>s.id===id)||scene();let added=0;for(const item of sc.words){if(!P.deck[item.id]){P.deck[item.id]={due:Date.now(),reps:0,interval:0,ease:2.5};added++;}}persist();render();toast(added?`${added} words added to your review deck.`:'All words in this pack are already saved.');}
+function saveItem(id){if(!INDEX[id])return;if(P.deck[id]){delete P.deck[id];toast('Removed from your review deck.');}else{P.deck[id]={due:Date.now(),reps:0,interval:0,ease:2.5};toast('Added to your review deck.');}persist();render();}
+function nextStep(direction){cleanupAudio();const sc=scene();if(S.mode==='listen'||S.mode==='quiz'){S.step=(S.step+direction+sc.turns.length)%sc.turns.length;S.quizAnswer=null;}else if(S.mode==='speak'){const max=sc.turns.filter(x=>x.role==='you').length;S.speakStep=(S.speakStep+direction+max)%max;}S.answerResult=null;S.showAnswer=false;S.answerText='';render();}
+function chatStep(direction){cleanupAudio();const sc=scene();if(direction>0&&S.chatStep===sc.turns.length-1){S.chatStep++;P.completed[S.lang][sc.id]=Date.now();P.lifetime[S.lang].conversations++;addLog('chat');persist();}else S.chatStep=Math.max(0,Math.min(sc.turns.length,S.chatStep+direction));S.showAnswer=false;S.answerText='';S.answerResult=null;render();}
+function filterList(){const input=$('#scene-search');if(!input)return;S.sceneSearch=input.value;const html=sceneListItems(S.sceneSearch.trim());$('#scene-list').innerHTML=html;$('#scene-no-results').hidden=!!html;}
+function filterLibrary(){const input=$('#library-search');if(!input)return;const q=input.value.toLowerCase().trim();S.librarySearch=q;const all=phrasebookItems(),found=q?all.filter(x=>`${x.target} ${x.reading} ${x.en} ${x.sceneTitle}`.toLowerCase().includes(q)):all;const visible=found.slice(0,S.libraryCount);$('#library-items').innerHTML=libraryRows(visible);$('#library-empty').hidden=!!found.length;$('#library-count').textContent=q?`${found.length} result(s) · ${visible.length} shown` :`Showing ${visible.length} of ${all.length} items`;const more=$('[data-action="libraryMore"]');if(more){more.hidden=found.length<=S.libraryCount;more.textContent=`Load more (${Math.max(0,found.length-S.libraryCount)} remaining)`;}}
+function exportFile(){const blob=new Blob([JSON.stringify({format:'TalkTrip-v1',exportedAt:new Date().toISOString(),data:P},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`talktrip-progress-${localDay()}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);toast('Backup downloaded. Keep it somewhere safe.');}
+function importFile(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const obj=JSON.parse(reader.result);if(obj.format!=='TalkTrip-v1'||!obj.data?.deck||!obj.data?.logs||!obj.data?.settings||!obj.data?.completed)throw Error('not TalkTrip backup');if(!window.confirm('Replace the saved progress on this browser with the backup?'))return;P={...initData(),...obj.data,settings:{...initData().settings,...obj.data.settings,voices:{ja:'',it:'',...(obj.data.settings.voices||{})}}};persist();navigate('home');toast('Backup restored successfully.');}catch(e){toast('Invalid backup. Please choose a TalkTrip progress JSON file.');}};reader.readAsText(file);}
+document.addEventListener('input',event=>{if(event.target.id==='scene-search')filterList();if(event.target.id==='library-search')filterLibrary();if(event.target.id==='speak-entry')S.answerText=event.target.value;});
+document.addEventListener('change',event=>{if(event.target.id==='speed'){P.settings.speed=Number(event.target.value);persist();toast(`Playback speed set to ${P.settings.speed}×.`);}if(event.target.id==='voice'){P.settings.voices[S.lang]=event.target.value;persist();toast('Preferred voice saved.');}});
+$('#import-file').addEventListener('change',e=>{importFile(e.target.files[0]);e.target.value='';});
+document.addEventListener('click',event=>{const btn=event.target.closest('[data-action]');if(!btn||btn.disabled)return;const a=btn.dataset.action,v=btn.dataset.value,id=btn.dataset.id;switch(a){
+case 'language':changeLanguage(v);break;case 'navigate':navigate(v);break;case 'openScene':enterScene(v);break;
+case 'startMission':enterScene(P.last[S.lang]||'cafe','quiz');break;case 'launchQuiz':enterScene(P.last[S.lang]||'cafe','quiz');break;case 'launchSpeak':enterScene(P.last[S.lang]||'cafe','speak');break;case 'launchChat':enterScene(P.last[S.lang]||'cafe','chat');break;
+case 'filterScenes':S.sceneFilter=v;render();break;case 'mode':cleanupAudio();S.mode=v;resetPractice();render();break;
+case 'play':if(INDEX[id])speak(INDEX[id].target,INDEX[id].lang);break;case 'save':saveItem(id);break;
+case 'prev':nextStep(-1);break;case 'next':nextStep(1);break;case 'speakPrev':nextStep(-1);break;case 'speakNext':nextStep(1);break;
+case 'quizAnswer':if(S.quizAnswer!==null)return;S.quizAnswer=v;if(v===scene().turns[S.step].en)addLog('quiz');else autoSaveMissed(scene().turns[S.step].id);render();break;
+case 'reveal':S.showAnswer=!S.showAnswer;render();break;case 'recognize':beginRecognition();break;case 'checkAnswer':checkWords(S.answerText);break;
+case 'startRecord':startRecord();break;case 'stopRecord':stopRecord();break;case 'playRecord':if(recordURL){const audio=new Audio(recordURL);audio.play().catch(()=>toast('Could not play your recording.'));}break;
+case 'chatPrev':chatStep(-1);break;case 'chatNext':chatStep(1);break;case 'restartChat':S.chatStep=0;S.answerResult=null;S.showAnswer=false;render();break;
+case 'reviewReveal':S.reviewReveal=true;render();break;case 'grade':gradeCard(v);break;case 'addPack':addPack(scene().id);break;case 'addStarter':addPack(P.last[S.lang]||'cafe');break;
+case 'libraryType':S.libraryType=v;S.libraryCount=36;render();break;case 'libraryMore':S.libraryCount+=36;render();break;
+case 'toggleReading':P.settings.reading=!P.settings.reading;persist();render();break;case 'toggleEnglish':P.settings.hideEnglish=!P.settings.hideEnglish;persist();render();break;
+case 'testVoice':speak(S.lang==='ja'?'すみません、もう少しゆっくり話していただけますか。':'Scusi, può parlare un po’ più lentamente?');break;
+case 'export':exportFile();break;case 'import':$('#import-file').click();break;case 'reset':if(window.confirm('Clear progress for BOTH languages? Export a backup first if you want to keep it.')){P=initData();seedDeck(P);persist();navigate('home');toast('Progress reset.');}break;
+}});
+render();
+</script></body></html>
